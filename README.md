@@ -1,1 +1,1 @@
-# ao-grasp
+# AO-Grasp: Articulated Object Grasp Generation
