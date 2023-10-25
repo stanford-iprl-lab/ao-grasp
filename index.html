@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description"
+        content="A grasp proposal method that generates stable and actionable 6 degree-of-freedom grasps for articulated objects.">
+    <title>AO-Grasp: Articulated Object Grasp Generation</title>
+    <link rel="icon" href="media/custom-handle-cylinder.svg" type="image/x-icon" />
+    <link rel="canonical" href="https://stanford-iprl-lab.github.io/ao-grasp/" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <style>
+        .btn-cr:hover,
+        .btn-cr.active {
+            background-color: #333333 !important;
+            border-color: #333333 !important;
+        }
+
+        .btn-cr {
+            background-color: #979295 !important;
+        }
+    </style>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-J80BZ8Z503"></script>
+    <script> window.dataLayer = window.dataLayer || []; function gtag() { dataLayer.push(arguments); } gtag('js', new Date()); gtag('config', 'G-J80BZ8Z503');</script>
+</head>
+
+<body>
+    <section id="header">
+        <div class="jumbotron jumbotron-fluid" style="text-align: center; margin: 0; background-color: white;">
+            <div class="container"></div>
+            <h2>AO-Grasp: Articulated Object Grasp Generation</h2>
+            <!-- <h4>Submitted to ICRA 2024</h4> -->
+            <p class="authors" style="margin-top: 1rem;">
+                <a target="_blank" rel="noopener noreferrer"
+                    href="https://scholar.google.com/citations?user=VYHsCFUAAAAJ&hl=en&oi=ao">Carlota Parés
+                    Morlans</a><sup>1*</sup>,
+                <a target="_blank" rel="noopener noreferrer"
+                    href="https://scholar.google.com/citations?user=87H5EdIAAAAJ&hl=en&oi=ao">Claire
+                    Chen</a><sup>1*</sup>,
+                <a target="_blank" rel="noopener noreferrer"
+                    href="https://scholar.google.com/citations?user=yeuv8L4AAAAJ&hl=en&oi=ao">Yijia
+                    Weng</a><sup>1</sup>,
+                <a href="">Michelle Yi</a><sup>1</sup>,
+                <a href="">Yuying Huang</a><sup>1</sup>,
+                <a target="_blank" rel="noopener noreferrer"
+                    href="https://scholar.google.com/citations?user=btkVpywAAAAJ&hl=en&oi=ao">Nick
+                    Heppert</a><sup>2</sup>,
+                <a target="_blank" rel="noopener noreferrer"
+                    href="https://scholar.google.com/citations?user=sJu-75IAAAAJ&hl=en&oi=ao">Linqi
+                    Zhou</a><sup>1</sup>,
+                <a target="_blank" rel="noopener noreferrer"
+                    href="https://scholar.google.com/citations?user=5JlEyTAAAAAJ&hl=en&oi=ao">Leonidas
+                    Guibas</a><sup>1</sup>,
+                <a target="_blank" rel="noopener noreferrer"
+                    href="https://scholar.google.com/citations?user=rjnJnEkAAAAJ&hl=en&oi=ao">Jeannette
+                    Bohg</a><sup>1</sup>
+            </p>
+            <p class="font-weight-light">
+                <span><sup>*</sup> Equal Contribution</span>,
+                <span><sup>1</sup> Stanford University, USA</span>,
+                <span><sup>2</sup> University of Freiburg, Germany</span>
+            </p>
+            <div>
+                <a target="_blank" rel="noopener noreferrer" class="btn btn-dark mb-2"
+                    href="https://arxiv.org/pdf/2310.15928.pdf" role="button">
+                    <span class="bi bi-file-earmark-pdf"></span>&nbsp;
+                    Paper
+                </a>
+                <a class="btn btn-dark disabled mb-2" href="https://github.com/stanford-iprl-lab/ao-grasp"
+                    role="button">
+                    <span class="bi bi-github"></span>&nbsp;
+                    Code (Coming Soon)
+                </a>
+                <a href="#" class="btn btn-dark disabled mb-2" role="button">
+                    <span class="bi bi-file-earmark-zip"></span>&nbsp;
+                    Dataset (Coming Soon)
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="container p-0">
+            <img src="media/top.gif" class="img-fluid" alt="Grid with multiple grasping examples.">
+        </div>
+
+        <div class="container">
+            <div class="row justify-content-md-center m-3 mx-5">
+                <div class="col-auto p-4 rounded" style="background-color: rgba(0,0,0,.03)">
+                    <h2 class="title" style="text-align: center;">Abstract</h2>
+                    <p class="font-weight-light">
+                        We introduce AO-Grasp, a grasp proposal method that generates stable and actionable 6
+                        degree-of-freedom grasps for articulated objects. Our generated grasps enable robots to interact
+                        with articulated objects, such as opening and closing cabinets and appliances. Given a segmented
+                        partial point cloud of a single articulated object, AO-Grasp predicts the best grasp points on
+                        the object with a novel Actionable Grasp Point Predictor model and then finds corresponding
+                        grasp orientations for each point by leveraging a state-of-the-art rigid object grasping method.
+                        We train AO-Grasp on our new AO-Grasp Dataset, which contains 48K actionable parallel-jaw grasps
+                        on synthetic articulated objects. In simulation, AO-Grasp achieves higher grasp success rates
+                        than existing rigid object grasping and articulated object interaction baselines on both train
+                        and test categories. Additionally, we evaluate AO-Grasp on 120 real-world scenes of objects with
+                        varied geometries, articulation axes, and joint states, where AO-Grasp produces successful
+                        grasps on 67.5% of scenes, while the baseline only produces successful grasps on 33.3% of the
+                        scenes.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="container mt-4">
+            <h2 class="title">AO-Grasp Dataset</h2>
+            <p class="font-weight-light">
+                We introduce the AO-Grasp Dataset, a dataset of simulated, actionable grasps on articulated objects. It
+                contains 48K 6 DoF grasps for 61 instances from 5 common household furniture/appliance categories (<a
+                    href="#carouselDataset" data-slide-to="0">Box</a>,<a href="#carouselDataset"
+                    data-slide-to="1">Dishwasher</a>, <a href="#carouselDataset" data-slide-to="2">Microwave</a>, <a
+                    href="#carouselDataset" data-slide-to="3">Safe</a>, and <a href="#carouselDataset"
+                    data-slide-to="4">TrashCan</a>) from the <a
+                    href="https://sapien.ucsd.edu/browse">PartNet-Mobility</a> dataset.
+            </p>
+        </div>
+
+        <div id="carouselDataset" class="container carousel slide" data-ride="carousel" data-pause="false"
+            data-interval="7000">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="media/box.gif" class="d-block w-100" alt="Grid with multiple grasp executions on boxes.">
+                </div>
+                <div class="carousel-item">
+                    <img src="media/dishwasher.gif" class="d-block w-100" alt="Grid with multiple grasp executions on dishwashers.">
+                </div>
+                <div class="carousel-item">
+                    <img src="media/microwave.gif" class="d-block w-100" alt="Grid with multiple grasp executions on microwaves.">
+                </div>
+                <div class="carousel-item">
+                    <img src="media/safe.gif" class="d-block w-100" alt="Grid with multiple grasp executions on safes.">
+                </div>
+                <div class="carousel-item">
+                    <img src="media/trashcan.gif" class="d-block w-100" alt="Grid with multiple grasp executions on trashcans.">
+                </div>
+            </div>
+            <div class="d-flex justify-content-center m-2 carousel-indicators" style="position: inherit !important;">
+                <a class="m-1 btn btn-cr active" href="#carouselDataset" role="button" data-slide-to="0">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="white" class="bi"
+                        viewBox="0 0 300 300">
+                        <g inkscape:label="Layer 1" inkscape:groupmode="layer" id="layer1">
+                            <g id="g1003" transform="matrix(3.3675325,0,0,3.3675325,-712.08832,-696.03193)">
+                                <polygon points="220.667,234.138 211.457,242.27 236.946,266.286 246.07,252.048 "
+                                    id="polygon991" />
+                                <polygon points="267.355,216.301 260.055,222.842 292.623,236.772 299.327,227.455 "
+                                    id="polygon993" />
+                                <polygon
+                                    points="289.674,237.989 258.184,224.519 257.917,224.758 257.613,224.451 223.265,233.182 247.821,250.495 "
+                                    id="polygon995" />
+                                <polygon points="249.441,216.224 216.525,221.735 221.206,231.355 255.748,222.574 "
+                                    id="polygon997" />
+                                <polygon points="258.566,268.537 300.543,251.986 292.52,239.515 249.32,252.425 "
+                                    id="polygon999" />
+                                <polygon
+                                    points="291.875,279.614 291.875,257.853 257.571,271.378 247.563,253.94 237.382,269.828 221.727,255.077 221.727,270.218 247.899,295.775 "
+                                    id="polygon1001" />
+                            </g>
+                        </g>
+                    </svg>
+                </a>
+                <a class="m-1 btn btn-cr" href="#carouselDataset" role="button" data-slide-to="1">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="white" class="bi"
+                        viewBox="0 0 300 300">
+                        <g inkscape:label="Layer 1" inkscape:groupmode="layer" id="layer1">
+                            <g id="g441" transform="matrix(4.6874927,0,0,4.6874927,-14.061776,-14.062479)">
+                                <g id="g439">
+                                    <path
+                                        d="m 4.9713,34.2245 7.6804,26.5412 H 57.358 l 7.6705,-26.5412 z m 39.4385,4.7 -1.7294,4.652 c -0.1559,0.4183 -0.5549,0.6957 -1.0013,0.6957 H 28.3256 c -0.4464,0 -0.8459,-0.2774 -1.0013,-0.6957 l -1.7288,-4.652 c -0.1215,-0.3286 -0.0751,-0.6947 0.1241,-0.9825 0.1997,-0.2868 0.5273,-0.4579 0.8772,-0.4579 h 16.8117 c 0.3494,0 0.6769,0.1711 0.8772,0.4589 0.1992,0.2868 0.2461,0.6529 0.1241,0.9815 z"
+                                        id="path419" />
+                                    <path
+                                        d="M 58.3511,3 H 11.6364 c -0.5899,0 -1.0681,0.4782 -1.0681,1.0681 v 6.6984 H 59.4192 V 4.0681 C 59.4192,3.4782 58.941,3 58.3511,3 Z M 36.9069,8.3926 c -0.8333,0.0297 -1.533,-0.6215 -1.5629,-1.4548 -0.0298,-0.8334 0.6215,-1.533 1.4548,-1.5629 0.8333,-0.0299 1.5329,0.6215 1.5628,1.4548 0.0299,0.8333 -0.6214,1.533 -1.4547,1.5629 z m 5.6107,10e-4 c -0.8338,0 -1.5098,-0.676 -1.5098,-1.5098 0,-0.8339 0.676,-1.5098 1.5098,-1.5098 0.8338,0 1.5097,0.6759 1.5097,1.5098 0,0.8338 -0.6759,1.5098 -1.5097,1.5098 z m 12.2715,0.3797 c 0,0.5904 -0.4777,1.0681 -1.0681,1.0681 h -6.1539 c -0.5904,0 -1.0681,-0.4777 -1.0681,-1.0681 v -3.779 c 0,-0.5904 0.4777,-1.0681 1.0681,-1.0681 h 6.1539 c 0.5904,0 1.0681,0.4777 1.0681,1.0681 z"
+                                        id="path421" />
+                                    <path
+                                        d="m 48.196,25.7863 c -0.7299,0 -1.6005,0.4119 -2.0521,0.9244 -0.0094,0.1438 -0.008,0.2898 -0.0246,0.4316 h 7.0718 c -0.2535,-2.5273 -2.3969,-4.507 -4.9951,-4.507 -0.8918,0 -1.7429,0.2284 -2.4981,0.6665 0.0015,0.0043 0.0019,0.0089 0.0034,0.0133 0.1029,0.2939 0.1887,0.5931 0.2583,0.8969 0.6986,-0.352 1.4844,-0.5618 2.2364,-0.5618 0.5904,0 1.0681,0.4777 1.0681,1.0681 0,0.5903 -0.4777,1.068 -1.0681,1.068 z"
+                                        id="path423" />
+                                    <path
+                                        d="m 31.0448,21.3398 c -1.3648,-2.4053 -3.9067,-3.8947 -6.6562,-3.8947 -4.1993,0 -7.6158,3.4118 -7.6158,7.6048 0,0.7103 0.0991,1.4112 0.2947,2.0923 h 14.6414 c 0.4753,-1.968 0.4258,-3.7724 -0.624,-5.719 -0.0146,-0.027 -0.0281,-0.0552 -0.0401,-0.0834 z m -7.6121,-0.0834 c -1.5406,0.3891 -2.7176,1.7054 -2.9289,3.2762 -0.072,0.5372 -0.5309,0.9262 -1.0571,0.9262 -0.0475,0 -0.0954,-0.0031 -0.1439,-0.0094 -0.5846,-0.0782 -0.9945,-0.6164 -0.9163,-1.2005 0.3317,-2.4657 2.1069,-4.4538 4.5237,-5.064 0.5716,-0.1429 1.152,0.2023 1.297,0.7739 0.1444,0.5727 -0.2024,1.1526 -0.7745,1.2976 z"
+                                        id="path425" />
+                                    <path
+                                        d="m 14.6367,25.0499 c 0,-5.3717 4.3745,-9.741 9.7519,-9.741 3.1188,0 6.0264,1.4959 7.8614,3.9748 1.5015,-1.1543 3.3559,-1.8073 5.2653,-1.8073 2.9261,0 5.6481,1.5025 7.2325,3.9102 1.049,-0.5821 2.221,-0.8875 3.4482,-0.8875 3.7759,0 6.8706,2.9372 7.1308,6.6431 h 4.0944 V 12.9027 h -48.854 v 14.2396 h 4.3068 c -0.1516,-0.6864 -0.2373,-1.3847 -0.2373,-2.0924 z"
+                                        id="path427" />
+                                    <path
+                                        d="m 33.9121,27.1423 h 10.0465 c 0.2093,-1.3791 -0.0029,-2.6477 -0.5397,-3.7675 -1.0728,-2.2884 -3.3883,-3.7623 -5.9036,-3.7623 -1.5333,0 -3.0253,0.5518 -4.1915,1.5343 0.036,0.0827 0.0613,0.1692 0.095,0.2529 0.0436,0.1082 0.087,0.2156 0.1267,0.3253 1.2158,-0.8416 2.8078,-1.3072 4.1481,-1.0831 0.582,0.0991 0.9732,0.6509 0.8741,1.2329 -0.0991,0.581 -0.6519,0.9742 -1.2318,0.873 -1.0338,-0.1692 -2.5771,0.4908 -3.2461,1.3395 0.0321,0.3197 0.0502,0.6409 0.0502,0.9625 0,0.6878 -0.0914,1.4787 -0.2279,2.0925 z"
+                                        id="path429" />
+                                    <polygon points="41.8721,39.6202 28.1331,39.6202 29.0682,42.136 40.9365,42.136 "
+                                        id="polygon431" />
+                                    <rect x="48.635201" y="6.0623999" width="4.0177999" height="1.6428" id="rect433" />
+                                    <path
+                                        d="m 64.1066,29.2784 c -1.8941,0 -58.9101,0 -57.1258,0 l -1.5959,2.81 h 59.6072 z"
+                                        id="path435" />
+                                    <path
+                                        d="m 12.9146,65.0475 c 0,1.0764 0.8762,1.9526 1.9531,1.9526 h 40.2698 c 1.0764,0 1.9526,-0.8762 1.9526,-1.9526 V 62.9061 H 12.9146 Z"
+                                        id="path437" />
+                                </g>
+                            </g>
+                        </g>
+                    </svg>
+                </a>
+                <a class="m-1 btn btn-cr" href="#carouselDataset" role="button" data-slide-to="2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="white" class="bi"
+                        viewBox="0 0 300 300">
+                        <g inkscape:label="Layer 1" inkscape:groupmode="layer" id="layer1">
+                            <g id="g760" transform="matrix(3.3108079,0,0,3.3108079,-697.56682,-645.06353)">
+                                <path
+                                    d="m 277.312,262.989 c -0.652,0 -1.183,0.531 -1.183,1.183 0,0.652 0.531,1.183 1.183,1.183 0.652,0 1.183,-0.531 1.183,-1.183 0,-0.653 -0.531,-1.183 -1.183,-1.183 z"
+                                    id="path728" />
+                                <path
+                                    d="m 277.312,254.021 c -0.652,0 -1.183,0.53 -1.183,1.183 0,0.653 0.531,1.183 1.183,1.183 0.652,0 1.183,-0.531 1.183,-1.183 0,-0.652 -0.531,-1.183 -1.183,-1.183 z"
+                                    id="path730" />
+                                <path
+                                    d="m 286.122,271.956 c -0.652,0 -1.183,0.531 -1.183,1.183 0,0.652 0.531,1.183 1.183,1.183 0.652,0 1.183,-0.531 1.183,-1.183 0,-0.652 -0.531,-1.183 -1.183,-1.183 z"
+                                    id="path732" />
+                                <path
+                                    d="m 286.122,254.021 c -0.652,0 -1.183,0.53 -1.183,1.183 0,0.653 0.531,1.183 1.183,1.183 0.652,0 1.183,-0.531 1.183,-1.183 0,-0.652 -0.531,-1.183 -1.183,-1.183 z"
+                                    id="path734" />
+                                <path
+                                    d="m 286.122,262.989 c -0.652,0 -1.183,0.531 -1.183,1.183 0,0.652 0.531,1.183 1.183,1.183 0.652,0 1.183,-0.531 1.183,-1.183 0,-0.653 -0.531,-1.183 -1.183,-1.183 z"
+                                    id="path736" />
+                                <polygon
+                                    points="264.817,253.163 264.817,263.456 268.603,266.465 268.603,239.526 264.817,242.535 264.817,252.828 "
+                                    id="polygon738" />
+                                <path
+                                    d="m 294.931,271.956 c -0.652,0 -1.183,0.531 -1.183,1.183 0,0.652 0.531,1.183 1.183,1.183 0.652,0 1.183,-0.531 1.183,-1.183 0,-0.652 -0.53,-1.183 -1.183,-1.183 z"
+                                    id="path740" />
+                                <path
+                                    d="m 267.41,232.003 h -50.331 c -0.658,0 -1.193,0.535 -1.193,1.193 v 39.932 c 0,0.658 0.535,1.193 1.193,1.193 h 50.331 c 0.658,0 1.193,-0.535 1.193,-1.193 v -3.615 l -5.722,-4.548 c -0.285,-0.227 -0.451,-0.57 -0.451,-0.934 v -10.869 -0.335 -10.869 c 0,-0.364 0.166,-0.708 0.451,-0.934 l 5.722,-4.548 v -3.28 c 0,-0.657 -0.535,-1.193 -1.193,-1.193 z"
+                                    id="path742" />
+                                <path
+                                    d="m 277.312,271.956 c -0.652,0 -1.183,0.531 -1.183,1.183 0,0.652 0.531,1.183 1.183,1.183 0.652,0 1.183,-0.531 1.183,-1.183 0,-0.652 -0.531,-1.183 -1.183,-1.183 z"
+                                    id="path744" />
+                                <path
+                                    d="m 300.254,226.55 h -88.508 c -0.658,0 -1.193,0.535 -1.193,1.193 v 50.837 c 0,0.658 0.535,1.193 1.193,1.193 h 88.508 c 0.658,0 1.193,-0.535 1.193,-1.193 v -50.837 c 10e-4,-0.658 -0.534,-1.193 -1.193,-1.193 z m -29.264,46.578 c 0,1.975 -1.607,3.58 -3.58,3.58 h -50.33 c -1.975,0 -3.58,-1.605 -3.58,-3.58 v -39.93 c 0,-1.975 1.605,-3.58 3.58,-3.58 h 50.33 c 1.973,0 3.58,1.605 3.58,3.58 z m 6.323,3.58 c -1.969,0 -3.57,-1.601 -3.57,-3.568 0,-1.969 1.601,-3.57 3.57,-3.57 1.967,0 3.568,1.601 3.568,3.57 0,1.967 -1.601,3.568 -3.568,3.568 z m 0,-8.966 c -1.969,0 -3.57,-1.601 -3.57,-3.57 0,-1.969 1.601,-3.57 3.57,-3.57 1.967,0 3.568,1.601 3.568,3.57 0,1.969 -1.601,3.57 -3.568,3.57 z m 0,-8.968 c -1.969,0 -3.57,-1.601 -3.57,-3.57 0,-1.969 1.601,-3.57 3.57,-3.57 1.967,0 3.568,1.601 3.568,3.57 0,1.969 -1.601,3.57 -3.568,3.57 z m 8.808,17.934 c -1.967,0 -3.57,-1.601 -3.57,-3.568 0,-1.969 1.603,-3.57 3.57,-3.57 1.969,0 3.57,1.601 3.57,3.57 0,1.967 -1.601,3.568 -3.57,3.568 z m 0,-8.966 c -1.967,0 -3.57,-1.601 -3.57,-3.57 0,-1.969 1.603,-3.57 3.57,-3.57 1.969,0 3.57,1.601 3.57,3.57 0,1.969 -1.601,3.57 -3.57,3.57 z m 0,-8.968 c -1.967,0 -3.57,-1.601 -3.57,-3.57 0,-1.969 1.603,-3.57 3.57,-3.57 1.969,0 3.57,1.601 3.57,3.57 0,1.969 -1.601,3.57 -3.57,3.57 z m 8.811,17.934 c -1.969,0 -3.57,-1.601 -3.57,-3.568 0,-1.969 1.601,-3.57 3.57,-3.57 1.967,0 3.568,1.601 3.568,3.57 0,1.967 -1.601,3.568 -3.568,3.568 z m 0,-8.966 c -1.969,0 -3.57,-1.601 -3.57,-3.57 0,-1.969 1.601,-3.57 3.57,-3.57 1.967,0 3.568,1.601 3.568,3.57 0,1.969 -1.601,3.57 -3.568,3.57 z m 0,-8.968 c -1.969,0 -3.57,-1.601 -3.57,-3.57 0,-1.969 1.601,-3.57 3.57,-3.57 1.967,0 3.568,1.601 3.568,3.57 0,1.969 -1.601,3.57 -3.568,3.57 z m 3.568,-11.909 c 0,0.658 -0.533,1.193 -1.193,1.193 h -22.371 c -0.658,0 -1.193,-0.535 -1.193,-1.193 v -5.712 c 0,-0.66 0.535,-1.193 1.193,-1.193 h 22.371 c 0.66,0 1.193,0.533 1.193,1.193 z m 0,-10.342 c 0,0.658 -0.533,1.193 -1.193,1.193 h -22.371 c -0.658,0 -1.193,-0.535 -1.193,-1.193 v -5.712 c 0,-0.66 0.535,-1.193 1.193,-1.193 h 22.371 c 0.66,0 1.193,0.533 1.193,1.193 z"
+                                    id="path746" />
+                                <path
+                                    d="m 294.931,254.021 c -0.652,0 -1.183,0.53 -1.183,1.183 0,0.653 0.531,1.183 1.183,1.183 0.652,0 1.183,-0.531 1.183,-1.183 0,-0.652 -0.53,-1.183 -1.183,-1.183 z"
+                                    id="path748" />
+                                <rect x="277.45801" y="282.16101" width="18.563" height="3.2869999" id="rect750" />
+                                <rect x="276.129" y="242.345" width="19.985001" height="3.326" id="rect752" />
+                                <rect x="276.129" y="232.00301" width="19.985001" height="3.326" id="rect754" />
+                                <path
+                                    d="m 294.931,262.989 c -0.652,0 -1.183,0.531 -1.183,1.183 0,0.652 0.531,1.183 1.183,1.183 0.652,0 1.183,-0.531 1.183,-1.183 0,-0.653 -0.53,-1.183 -1.183,-1.183 z"
+                                    id="path756" />
+                                <rect x="215.979" y="282.16101" width="18.563" height="3.2869999" id="rect758" />
+                            </g>
+                        </g>
+                    </svg>
+                </a>
+                <a class="m-1 btn btn-cr" href="#carouselDataset" role="button" data-slide-to="3">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="white" class="bi"
+                        viewBox="0 0 300 300">
+                        <g inkscape:label="Layer 1" inkscape:groupmode="layer" id="layer1">
+                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                d="M 260.17411,265.43615 H 39.82587 c -12.40102,0 -22.543982,-10.14113 -22.543982,-22.54582 V 22.543955 C 17.281888,10.141129 27.42485,-2.5000001e-7 39.82587,-2.5000001e-7 h 220.34824 c 12.40289,0 22.544,10.14112925000001 22.544,22.54395525000001 V 242.89033 c 0,12.40289 -10.14111,22.54582 -22.544,22.54582 z M 85.740461,300 H 63.513559 c -4.956014,0 -9.015757,-4.05981 -9.015757,-9.0176 v -17.03636 h 40.260261 v 17.03636 c 0,4.95412 -4.063422,9.0176 -9.017602,9.0176 z m 150.745999,0 h -22.22511 c -4.95605,0 -9.01946,-4.05981 -9.01946,-9.0176 v -17.03636 h 40.26394 v 17.03636 c 0,4.95412 -4.06338,9.0176 -9.01937,9.0176 z m 8.41088,-68.62537 h 3.75919 v -3.76103 -24.25404 h 0.67608 c 2.73463,0 4.97068,-2.23604 4.97068,-4.97067 v -18.72617 c 0,-2.73274 -2.23791,-4.97067 -4.97068,-4.97067 h -0.67608 V 90.74413 h 0.67608 c 2.73463,0 4.97068,-2.236051 4.97068,-4.972543 V 67.045393 c 0,-2.732738 -2.23791,-4.972478 -4.97068,-4.972478 h -0.67608 V 37.8207 34.063404 h -3.75919 -189.7947 -3.757334 v 3.757296 189.7929 3.76103 H 55.10264 Z M 241.1382,90.74413 h -0.66571 c -2.73097,0 -4.97248,-2.241601 -4.97248,-4.972543 V 67.045393 c 0,-2.736409 2.23604,-4.972478 4.97248,-4.972478 h 0.66571 V 41.578055 H 58.861806 V 223.85631 H 241.1382 v -20.49855 h -0.66571 c -2.73097,0 -4.97248,-2.23973 -4.97248,-4.97067 v -18.72437 c 0,-2.73463 2.23604,-4.97067 4.97248,-4.97067 h 0.66571 z m -91.13635,58.70784 c 9.23934,0 16.73382,-7.49456 16.73382,-16.73568 0,-9.24121 -7.49448,-16.73391 -16.73382,-16.73391 -1.01728,0 -2.01254,0.09 -2.97839,0.26394 l -3.8233,-4.58213 -4.41899,-5.28228 0.81194,6.83656 0.70195,5.86692 c -4.25398,3.037 -7.02529,8.00955 -7.02529,13.6309 -0.003,9.24112 7.489,16.73568 16.73208,16.73568 z m -17.95458,-2.72727 -12.08027,12.08023 3.94243,3.94244 12.08212,-12.08027 z m 44.04142,-44.04328 -12.0803,12.0803 3.94247,3.94427 12.08207,-12.08209 z m -40.09714,12.0821 -12.08212,-12.08029 -3.94243,3.94613 12.08027,12.0785 z m 44.04328,44.04328 -12.08211,-12.0821 -3.94244,3.94427 12.08027,12.08027 z m -52.63382,-28.88013 h -17.08396 v 5.57735 h 17.08396 z m 62.28372,0 H 172.6026 v 5.57735 h 17.08213 z M 152.78771,110.11724 V 93.03152 h -5.57549 v 17.08572 z m 0,62.28374 v -17.08395 h -5.57549 v 17.08395 z m -2.78586,7.29478 c 25.94385,0 46.97946,-21.03375 46.97946,-46.97947 0,-25.94393 -21.03561,-46.977683 -46.97946,-46.977683 -25.94578,0 -46.97949,21.033753 -46.97949,46.977683 0,25.94752 21.03371,46.97947 46.97949,46.97947 z"
+                                id="path170" style="stroke-width:1.83283" />
+                        </g>
+                    </svg>
+                </a>
+                <a class="m-1 btn btn-cr" href="#carouselDataset" role="button" data-slide-to="4">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="white" class="bi"
+                        viewBox="0 0 300 300">
+                        <g inkscape:label="Layer 1" inkscape:groupmode="layer" id="layer1">
+                            <g id="g18" transform="matrix(49.778807,0,0,49.778807,-19.911608,-19.911671)">
+                                <g id="g16">
+                                    <path
+                                        d="m 2.10028,2.4558 0.292307,3.64157 c 0.00774,0.098122 0.087976,0.172091 0.18637,0.172091 l 1.95338,-3.9e-6 c 0.09837,0 0.178469,-0.073961 0.18639,-0.172083 l 0.29235,-3.64157 h -2.9108 z M 4.53234,6.42666 H 2.57897 c -0.181217,0 -0.328756,-0.136193 -0.34322,-0.316732 l -0.299,-3.72645 C 1.93503,2.361509 1.94235,2.339946 1.957222,2.323844 1.972124,2.307726 1.9931082,2.2986 2.0150885,2.2986 l 3.08111,-3.9e-6 c 0.021854,0 0.042847,0.00915 0.057713,0.025248 0.014933,0.016094 0.022386,0.037665 0.020614,0.059638 l -0.299098,3.72645 c -0.014492,0.180539 -0.16202,0.316736 -0.343087,0.316732 z"
+                                        id="path6" />
+                                    <path
+                                        d="m 4.57052,0.557299 c -0.021118,0 -0.041894,0.005465 -0.060461,0.0161063 l -2.64001,1.5243 c -0.028126,0.016244 -0.048213,0.042591 -0.056673,0.07411 -0.00842,0.03165 -0.00423,0.064547 0.012008,0.092524 0.01611,0.028106 0.042445,0.048173 0.074102,0.056634 0.031665,0.00846 0.064413,0.00423 0.092524,-0.011874 l 2.64011,-1.52433 C 4.6601831,0.7686666 4.6802421,0.7423399 4.6886988,0.7106824 4.6972185,0.679021 4.6929311,0.6461352 4.6768248,0.6181588 4.6606161,0.5900446 4.6342421,0.5699856 4.6025925,0.5615249 4.5919545,0.5586469 4.5811675,0.5572929 4.5705215,0.5572929 Z m -2.53915,1.8199 h 1.26e-4 z M 1.931461,2.482545 C 1.834985,2.482545 1.740918,2.43247 1.689193,2.342947 1.652106,2.278663 1.642252,2.203345 1.661496,2.131156 1.680909,2.058963 1.727,1.998786 1.791409,1.96153 L 4.431499,0.43734 C 4.564814,0.3603794 4.735916,0.4062376 4.812889,0.53956 4.850188,0.6039734 4.859968,0.67917 4.840594,0.751355 4.821267,0.82354 4.775086,0.883729 4.710673,0.920985 l -2.64006,1.52416 C 2.02683,2.470539 1.978774,2.48255 1.931459,2.482543 Z"
+                                        id="path8" />
+                                    <path
+                                        d="m 2.67028,1.62854 c -0.027142,0 -0.053524,-0.014043 -0.068126,-0.039287 L 2.51252,1.43395 C 2.44141,1.310856 2.483705,1.15284 2.606929,1.081737 L 3.204968,0.736343 C 3.264417,0.702091 3.333874,0.6929493 3.400602,0.7108273 c 0.066653,0.0178661 0.12228,0.0604528 0.156661,0.119953 l 0.089665,0.155295 c 0.02174,0.0375236 0.00873,0.0857008 -0.028795,0.107398 -0.037646,0.021689 -0.085697,0.00874 -0.107402,-0.028795 L 3.4211292,0.9093786 C 3.3934323,0.8613392 3.3316922,0.8448353 3.2835232,0.8725361 l -0.597953,0.345256 c -0.048205,0.027831 -0.064724,0.089524 -0.036886,0.137559 l 0.089697,0.155283 c 0.021677,0.037535 0.00869,0.085716 -0.028831,0.107413 -0.012374,0.00709 -0.025929,0.010504 -0.039272,0.010492 z"
+                                        id="path10" />
+                                    <path
+                                        d="m 2.97131,2.7612 c -0.059197,0 -0.107417,0.048185 -0.107417,0.107276 l 1.57e-5,2.98817 c 0,0.059232 0.048157,0.107406 0.107386,0.107406 0.059095,-1.18e-5 0.10726,-0.048173 0.10726,-0.107402 l 3.94e-5,-2.98817 c 0,-0.059095 -0.048205,-0.10726 -0.107283,-0.107272 z m 0,3.36004 c -0.145846,0 -0.264626,-0.118717 -0.264626,-0.264598 l 1.57e-5,-2.98817 c 0,-0.145744 0.118709,-0.264465 0.264594,-0.264465 0.145799,-1.18e-5 0.264469,0.11872 0.264469,0.264469 l 3.94e-5,2.98817 c 0,0.145878 -0.11876,0.264614 -0.264492,0.264602 z"
+                                        id="path12" />
+                                    <path
+                                        d="m 4.13998,2.7612 c -0.059193,0 -0.107409,0.048185 -0.107409,0.107276 l 7.9e-6,2.98817 c 0,0.059232 0.048169,0.107406 0.107402,0.107406 0.059138,-1.18e-5 0.10726,-0.048173 0.10726,-0.107402 l 3.15e-5,-2.98817 c 0,-0.059095 -0.048201,-0.10726 -0.107291,-0.107272 z m 0,3.36004 c -0.145843,0 -0.264618,-0.118717 -0.264618,-0.264598 l 7.9e-6,-2.98817 c 0,-0.145744 0.11872,-0.264465 0.26461,-0.264465 0.145787,-1.18e-5 0.264469,0.11872 0.264469,0.264469 l 2.75e-5,2.98817 c 0,0.145878 -0.118756,0.264614 -0.264496,0.264602 z"
+                                        id="path14" />
+                                </g>
+                            </g>
+                            <path style="stroke-width:0.264583"
+                                d="M 65.821572,89.431483 83.707869,72.260639 206.05014,4.2927113 216.42419,8.2276965 215.70874,18.601749 82.992417,97.659181 72.618366,99.090085 66.1793,91.577839 Z"
+                                id="path320" />
+                            <path style="stroke-width:0.264583"
+                                d="m 80.073184,100.89221 154.274336,-0.53382 -3.73675,35.76602 -13.34553,156.94343 -107.29807,2.66912 -14.946991,-5.87203 v -4.27056 l 24.555771,-7.4735 h 14.947 l 40.03659,-5.33823 13.34553,6.93967 9.60879,-7.47347 -0.53383,-153.74053 -10.1426,-4.27057 -9.60878,5.87204 -38.43513,3.20292 -12.27789,-9.60878 -8.54114,10.67643 -33.630735,22.95431 z"
+                                id="path334" />
+                            <path style="stroke-width:0.264583"
+                                d="m 84.343755,123.84652 36.299845,-5.33821 -2.13529,153.74053 4.80439,10.14259 -19.75138,4.27056 -8.541141,-1.06762 z"
+                                id="path336" />
+                            <path style="stroke-width:0.264583"
+                                d="m 137.72588,118.50831 37.9013,1.60147 0.53382,161.214 -30.4278,3.20294 -11.74407,-4.27058 4.27057,-13.87936 z"
+                                id="path338" />
+                        </g>
+                    </svg>
+                </a>
+                </ol>
+
+            </div>
+            <div class="container mt-4 p-0">
+                <h2 class="title">AO-Grasp Predictor</h2>
+                <p>
+                    Given a partial point cloud of an articulated object, the AO-Grasp predictor outputs a set of
+                    <i>stable</i> and <i>actionable</i> 6 DoF grasp poses.
+                    <br>
+                    Hover over the <i class="bi bi-info-circle-fill" style="line-height: 0; color: #4895f7"></i> icons
+                    on the figure below to learn more our method!
+                </p>
+                <div class="container pb-0 pt-4 px-0 card position-relative" style="border: 0;">
+                    <img src="media/overview.jpg" class="img-fluid" alt="AO-Grasp overview.">
+                    <div class="card-img-overlay p-0 position-absolute" style="top: 0%;left: 22%;">
+                        <a style="position: inherit !important;" title="Siamese PointNet++" data-toggle="popover"
+                            data-trigger="hover" data-placement="top"
+                            data-content="We pre-train PointNet++ to learn viewpoint-independent point correspondences, which improves robustness to different viewpoints.
+                            It is trained as a Siamese network on a hardest contrastive loss with positive and negative correspondences from two different viewpoints of the same scene.">
+                            <i class="bi bi-info-circle-fill" style="line-height: 0; color: #4895f7;"></i>
+                        </a>
+                    </div>
+                    <div class="card-img-overlay p-0 position-absolute" style="top: 0%;left: 70%;">
+                        <a style="position: inherit !important;" title="Pseudo Ground Truth Heatmap"
+                            data-toggle="popover" data-trigger="hover" data-placement="top" data-content="We train the Grasp Point Predictor on dense pseudo-ground truth heatmaps that we compute from grasps in the AO-Grasp Dataset.
+                            We find that augmenting the sparse binary ground truth labels in this manner improves generalization to unseen test object categories.
+                            ">
+                            <i class="bi bi-info-circle-fill" style="line-height: 0; color: #4895f7;"></i>
+                        </a>
+                    </div>
+                    <div class="card-img-overlay p-0 position-absolute" style="top: 64%;left: 6%;">
+                        <a style="position: inherit !important;" title="Input" data-toggle="popover"
+                            data-trigger="hover" data-placement="bottom" data-content="AO-Grasp takes a segmented partial point cloud of an articulated object as input.
+                            It does not need any additional semantic part segmentation information.
+                            ">
+                            <i class="bi bi-info-circle-fill" style="line-height: 0; color: #4895f7;"></i>
+                        </a>
+                    </div>
+                    <div class="card-img-overlay p-0 position-absolute" style="top: 65%;left: 40%;">
+                        <a style="position: inherit !important;" title="Predicting Grasp Points" data-toggle="popover"
+                            data-trigger="hover" data-placement="bottom" data-content="For each point in the input point cloud, the
+                            Grasp Point Predictor outputs a grasp-likelihood score that
+                            signifies how likely that point will afford a stable and
+                            actionable grasp. ">
+                            <i class="bi bi-info-circle-fill" style="line-height: 0; color: #4895f7;"></i>
+                        </a>
+                    </div>
+                    <div class="card-img-overlay p-0 position-absolute" style="top: 84%;left: 42%;">
+                        <a style="position: inherit !important;" title="Predicting Grasp Orientations"
+                            data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="AO-Grasp obtains per-point grasp orientation predictions from Contact-GraspNet (CGN), a grasp generation method for rigid objects.
+                            We leverage CGN's orientation predictions, guided by the insight that an object's local geometry is the most important factor in determining
+                            a suitable grasp orientation, regardless of whether the object
+                            is rigid or articulated.
+                            ">
+                            <i class="bi bi-info-circle-fill" style="line-height: 0; color: #4895f7;"></i>
+                        </a>
+                    </div>
+                    <div class="card-img-overlay p-0 position-absolute" style="top: 82%;left: 94%;">
+                        <a style="position: inherit !important;" title="Output" data-toggle="popover"
+                            data-trigger="hover" data-placement="bottom" data-content="
+                            AO-Grasp uses the predicted grasp-likelihood scores output by the Grasp Point Predictor to select the top grasp proposals.
+                            ">
+                            <i class="bi bi-info-circle-fill" style="line-height: 0; color: #4895f7;"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+    </section>
+    <section>
+        <div class="container mt-4">
+            <h2 class="title">Results</h2>
+            <p>
+                We conduct a quantitative evaluation of AO-Grasp and CGN on 120 scenes of real-world objects with varied
+                local geometries and articulation axes, in different joints states, and captured from different
+                viewpoints. AO-Grasp produces successful grasps on 67.5% of scenes, while the baseline Contact-GraspNet
+                only produces successful grasps on 33.3% of the scenes.
+            </p>
+            <div class="container pb-0 pt-2 px-0">
+                <img src="media/results.png" class="img-fluid" alt="Results table.">
+            <div class="embed-responsive embed-responsive-16by9 mt-4 border">
+                <iframe class="embed-responsive-item" src="media/results-video.mp4" allowfullscreen></iframe>
+            </div>
+        </div>
+
+    </section>
+
+    <section>
+        <div class="container mt-4">
+            <h2 class="title">BibTeX</h2>
+            <div class="bg-light text-dark" style="padding:1rem; font-size:.875em">
+                <pre class="mb-0">
+@article{morlans2023aograsp,
+    title={AO-Grasp: Articulated Object Grasp Generation},
+    author={Carlota Parés Morlans and Claire Chen and Yijia Weng and Michelle Yi and Yuying Huang and Nick Heppert and Linqi Zhou and Leonidas Guibas and Jeannette Bohg},
+    year={2023},
+    eprint={2310.15928},
+    archivePrefix={arXiv},
+    primaryClass={cs.RO}
+}
+                </pre>
+            </div>
+        </div>
+    </section>
+
+    <footer class="p-4 mt-4 border-top">
+        <div class="container" style="text-align: center;">
+            <p>
+                This work has been supported by <a href="https://www.tri.global/">Toyota Research Institute</a>.
+            </p>
+            <a href="https://iprl.stanford.edu/">
+                <img class="img-fluid mt-1" src="media/iprl_logo.png" alt="IPRL logo" style="width: 70px;" />
+            </a>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct"
+        crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function () {
+            $('[data-toggle="popover"]').popover();
+        });
+    </script>
+</body>
+
+</html>
