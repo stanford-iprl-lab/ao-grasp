@@ -16,6 +16,7 @@ pointnet2.egg-info/
 .tox/
 .mypy_cache
 **/*.pyc
+pointnet2_ops.egg-info/
 
 
 pointnet2/data/modelnet40_normal_resampled/
