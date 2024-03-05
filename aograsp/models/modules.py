@@ -6,6 +6,7 @@ import torch.nn.functional as F
 from pointnet2_ops.pointnet2_modules import PointnetFPModule, PointnetSAModule
 from pointnet2.models.pointnet2_ssg_cls import PointNet2ClassificationSSG
 
+
 class PointNet2SemSegSSG(PointNet2ClassificationSSG):
     def _build_model(self):
         radius = self.hparams["pn_radius"]

@@ -8,6 +8,7 @@ import os
 
 from aograsp.models.modules import PointNet2SemSegSSG, PointScore
 
+
 class Model_PointScore(nn.Module):
     def __init__(self, conf):
         super(Model_PointScore, self).__init__()
