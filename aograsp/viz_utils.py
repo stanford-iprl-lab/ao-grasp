@@ -10,6 +10,7 @@ import matplotlib.pyplot as plt
 import matplotlib.cm
 import open3d as o3d
 
+
 def get_o3d_pts(pts):
     """
     Get open3d pcd from pts np.array
@@ -17,6 +18,7 @@ def get_o3d_pts(pts):
     pcd = o3d.geometry.PointCloud()
     pcd.points = o3d.utility.Vector3dVector(pts)
     return pcd
+
 
 def viz_heatmap(
     all_pts,

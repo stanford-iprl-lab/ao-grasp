@@ -8,13 +8,12 @@ import numpy as np
 import torch
 import open3d as o3d
 
-#from train_model.test import load_conf
+# from train_model.test import load_conf
 import aograsp.viz_utils as v_utils
 import aograsp.model_utils as m_utils
 
 
 def get_heatmap(args):
-
     # Load model and weights
     model = m_utils.load_model()
     model.to(args.device)
@@ -92,7 +91,6 @@ def get_heatmap(args):
 
 
 def parse_args():
-
     parser = ArgumentParser()
 
     # main parameters (required)
@@ -135,8 +133,8 @@ def main(args):
 
     # Load and test single trained model
     # Load conf params
-    #load_conf_path = os.path.join(conf.exp_dir, "conf.pth")
-    #conf = load_conf(conf, load_conf_path)
+    # load_conf_path = os.path.join(conf.exp_dir, "conf.pth")
+    # conf = load_conf(conf, load_conf_path)
 
     get_heatmap(args)
 
