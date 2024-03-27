@@ -15,13 +15,13 @@ import aograsp.model_utils as m_utils
 
 def get_heatmap(args):
     # Load model and weights
+    print("Loading model and weights")
     model = m_utils.load_model()
     model.to(args.device)
 
     # Directory to save output
     if not os.path.exists(args.output_dir):
         os.makedirs(args.output_dir)
-    print(f"Writing output to: {args.output_dir}")
 
     # Create directories to save heatmaps and heatmap images
     point_score_dir = os.path.join(args.output_dir, "point_score")
@@ -52,6 +52,7 @@ def get_heatmap(args):
     input_dict = {"pcs": pts}
 
     # Run inference
+    print("Computing heatmap")
     model.eval()
     with torch.no_grad():
         test_dict = model.test(input_dict, None)
@@ -85,6 +86,8 @@ def get_heatmap(args):
         save_path=hist_path,
         scale_cmap_to_heatmap_range=True,
     )
+    print(f"Heatmap saved to: {pcd_path}")
+    print(f"Visualization saved to: {fig_path}")
 
 
 def parse_args():
