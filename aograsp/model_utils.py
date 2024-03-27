@@ -1,11 +1,11 @@
+"""
+Helper functions for model
+"""
+
 import torch
 import os
 
 from aograsp.models.model_pointscore import Model_PointScore
-
-"""
-Helper functions for model
-"""
 
 
 def load_model(

@@ -17,16 +17,13 @@ def get_heatmap(args):
     # Load model and weights
     model = m_utils.load_model()
     model.to(args.device)
-    print(str(model))
 
     # Directory to save output
     if not os.path.exists(args.output_dir):
         os.makedirs(args.output_dir)
     print(f"Writing output to: {args.output_dir}")
 
-    # TODO get some test data (synthetic and real)
-    # Test inference on this data
-
+    # Create directories to save heatmaps and heatmap images
     point_score_dir = os.path.join(args.output_dir, "point_score")
     point_score_img_dir = os.path.join(args.output_dir, "point_score_img")
     os.makedirs(point_score_dir, exist_ok=True)
