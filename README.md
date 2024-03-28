@@ -6,7 +6,7 @@ Get actionable grasps for interacting with articulated objects from partial poin
 
 AO-Grasp requires two conda environments, one for running inference to predict heatmaps, and one for running Contact-GraspNet. Follow the instructions below to set up both environments.
 
-### Setting up the `ao-grasp` conda environment
+### Part 1: Setting up the `ao-grasp` conda environment
 
 1. From within the `ao-grasp/` directory, create a conda env named `ao-grasp` with the provided environment yaml file:
 
@@ -44,7 +44,7 @@ python run_pointscore_inference.py --pcd_path '/juno/u/clairech/ao-grasp/test_da
 
 This will save the predicted scores in `output/point_score/microwave_closed.npz` and a visualization of the scores in `output/point_score/microwave_closed.npz`.
 
-### Setting up the `cgn` conda environment
+### Part 2: Setting up the `cgn` conda environment
 
 1. From within the `ao-grasp/contact_graspnet` directory, create a conda env named `cgn` with the provided environment yaml file.
 ```
