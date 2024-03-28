@@ -6,6 +6,8 @@ Get actionable grasps for interacting with articulated objects from partial poin
 
 AO-Grasp requires two conda environments, one for running inference to predict heatmaps, and one for running Contact-GraspNet. Follow the instructions below to set up both environments.
 
+This code has been tested with Ubuntu 20.04 and CUDA 11.0
+
 ### Part 1: Setting up the `ao-grasp` conda environment
 
 1. From within the `ao-grasp/` directory, create a conda env named `ao-grasp` with the provided environment yaml file:
