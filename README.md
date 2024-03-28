@@ -1,5 +1,7 @@
 # AO-Grasp: Articulated Object Grasp Generation
 
+Get actionable grasps for interacting with articulated objects from partial point clouds.
+
 ## Installation
 
 AO-Grasp requires two conda environments, one for running inference to predict heatmaps, and one for running Contact-GraspNet. Follow the instructions below to set up both environments.
