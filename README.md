@@ -58,4 +58,8 @@ conda env create --name cgn --file aograsp_cgn_environment.yml
 
 Download trained models from [here](https://drive.google.com/drive/folders/1tBHKf60K8DLM5arm-Chyf7jxkzOr5zGl?usp=sharing) and copy them into the `checkpoints/` folder.
 
-3. Test the installation
+3. Test the installation from the `ao-grasp` directory
+```
+cd ..
+python contact_graspnet/contact_graspnet/run_cgn_on_heatmap_file.py '/juno/u/clairech/ao-grasp/output/point_score/microwave_closed.npz' --viz_top_k 1
+```
