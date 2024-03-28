@@ -8,35 +8,41 @@ AO-Grasp requires two conda environments, one for running inference to predict h
 
 ### Setting up the `ao-grasp` conda environment
 
-1. From within the `ao-grasp/` directory, create a conda env named `ao-grasp` with the provided environment yaml file.
+1. From within the `ao-grasp/` directory, create a conda env named `ao-grasp` with the provided environment yaml file:
 
 ```
 conda env create --name ao-grasp --file aograsp-environment.yml
 ```
 
-2. Activate the new conda env you just created.
+2. Activate the new conda env you just created:
 ```
 conda activate ao-grasp
 ```
 
-3. Install PyTorch 
+3. Install PyTorch:
 ```
 pip install torch==1.11.0+cu113 torchvision==0.12.0+cu113 torchaudio==0.11.0 --extra-index-url https://download.pytorch.org/whl/cu113
 ```
 
-4. Install PointNet++. In the `ao-grasp` conda env, install PointNet2_PyTorch from the directory contained within this repo by running the following commands:
+4. Install the `aograsp` package as an editable package
+```
+pip install -e .
+```
+
+5. Install PointNet++. In the `ao-grasp` conda env, install PointNet2_PyTorch from the directory contained within this repo by running the following commands:
 ```
 cd aograsp/models/Pointnet2_PyTorch/
 pip install -r requirements.txt
 pip install -e .
 ```
 
-5. Install the `aograsp` package as an editable package
+6. Test the installation by predicting the per-point grasp likelihood scores on a provided test point cloud:
+
 ```
-pip install -e .
+python run_pointscore_inference.py --pcd_path '/juno/u/clairech/ao-grasp/test_data/real/microwave_closed.ply'
 ```
 
-6. Test the installation
+This will save the predicted scores in `output/point_score/microwave_closed.npz` and a visualization of the scores in `output/point_score/microwave_closed.npz`.
 
 ### Setting up the `cgn` conda environment
 
