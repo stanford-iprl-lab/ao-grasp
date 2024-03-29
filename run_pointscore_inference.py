@@ -115,9 +115,8 @@ def parse_args():
     parser.add_argument(
         "--display",
         type=str,
-        default=":3",
         choices=[":1", ":2", ":3"],
-        help="Display number",
+        help="Display number; for accomdating remote desktop setups",
     )
 
     # parse args
@@ -129,7 +128,9 @@ def parse_args():
 
 
 def main(args):
-    os.environ["DISPLAY"] = args.display
+    if args.display is not None:
+        # Set env variable DIPSLAY to user-specified value
+        os.environ["DISPLAY"] = args.display
     np.random.seed(0)
 
     ### prepare before training
