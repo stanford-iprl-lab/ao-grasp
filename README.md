@@ -76,7 +76,7 @@ This will save an image of the top 1 grasp proposals in `output/grasp_proposals_
 
 ### Step 1: Running AO-Grasp on our test data
 
-Running AO-Grasp inference to get grasps from point clouds requires running two scripts, each in their own conda environment. For your convenience, we have provided a bash script takes a path to a partial point cloud (saved as an Open3d point cloud) and generates proposals by calling the two scripts in their respectived conda environments.
+Running AO-Grasp inference to get grasps from point clouds requires running two scripts, each in their own conda environment. For your convenience, we have provided a bash script takes a path to a partial point cloud (saved as an Open3d point cloud) and generates proposals by calling the two scripts in their respectived conda environments. **Note: If you have named either your AO-Grasp or CGN conda envs with custom names, instead of the ones we use in our installation instructions, you will need to change the conda environment names in the bash script. See the TODOs in the bash script.**
 
 To run this bash script on a provided test point cloud (you may need to change the permissions on the script to make it executable):
 ```
