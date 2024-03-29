@@ -6,7 +6,7 @@ Get actionable grasps for interacting with articulated objects from partial poin
 
 AO-Grasp requires two conda environments, one for running inference to predict heatmaps, and one for running Contact-GraspNet. Follow the instructions below to set up both environments.
 
-This code has been tested with Ubuntu 20.04 and CUDA 11.0, on a Quadro P5000 GPU. We note that we were unable to run the code, particularly the Contact-GraspNet inference, on a Geforce RTX 4090 GPU.
+This code has been tested with Ubuntu 20.04 and CUDA 11.0, on a Quadro P5000 GPU. We note that we were unable to run the code, particularly the Contact-GraspNet inference, on a Geforce RTX 4090 GPU, due to a tensorflow version incompatibility.
 
 **Step 1: Clone this repository**
 First, clone this resposity and its submodule `contact_graspnet`:
