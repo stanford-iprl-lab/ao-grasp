@@ -1,0 +1,3 @@
+[submodule "contact_graspnet"]
+	path = contact_graspnet
+	url = git@github.com:stanford-iprl-lab/contact_graspnet.git
