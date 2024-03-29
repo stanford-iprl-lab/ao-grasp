@@ -103,7 +103,7 @@ prop_dict = np.load(<path/to/proposal.npz>, allow_pickle=True)["data"].item()
 
 ### Step 2: Running AO-Grasp on your own data
 
-To run AO-Grasp on your own data using our provided script, you must save point clouds in the [Open3d point cloud format.](https://www.open3d.org/docs/release/python_api/open3d.io.write_point_cloud.html). For best performance, here are a few things to look out for when using your own data:
+To run AO-Grasp on your own data using our provided script, you must save point clouds in the [Open3d point cloud format](https://www.open3d.org/docs/release/python_api/open3d.io.write_point_cloud.html). For best performance, here are a few things to look out for when using your own data:
 
 - Point clouds must have 4096 points.
 - The object point cloud must be segmented out from the full scene
