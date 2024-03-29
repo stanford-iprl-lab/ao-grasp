@@ -1,8 +1,8 @@
 #!/bin/bash
 PCD_PATH="$1"
 
-AO_CONDA_ENV="ao-release"
-CGN_CONDA_ENV="cgn"
+AO_CONDA_ENV="ao-grasp" # TODO: CHANGE TO YOUR AO-GRASP CONDA ENV NAME
+CGN_CONDA_ENV="cgn" # TODO: CHANGE TO OUR CGN CONDA ENV NAME
 
 CGN_ROOT_DIR="./contact_graspnet"
 
