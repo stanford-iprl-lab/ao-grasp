@@ -8,7 +8,13 @@ AO-Grasp requires two conda environments, one for running inference to predict h
 
 This code has been tested with Ubuntu 20.04 and CUDA 11.0
 
-### Part 1: Setting up the `ao-grasp` conda environment
+**Part 1: Clone this repository**
+First, clone this resposity and its submodule `contact_graspnet`:
+```
+git clone --recurse-submodules git@github.com:stanford-iprl-lab/ao-grasp.git
+```
+
+**Part 2: Setting up the `ao-grasp` conda environment**
 
 1. From within the `ao-grasp/` directory, create a conda env named `ao-grasp` with the provided environment yaml file:
 
@@ -46,7 +52,7 @@ python run_pointscore_inference.py --pcd_path '/juno/u/clairech/ao-grasp/test_da
 
 This will save the predicted scores in `output/point_score/microwave_closed.npz` and a visualization of the scores in `output/point_score/microwave_closed.npz`.
 
-### Part 2: Setting up the `cgn` conda environment
+**Part 3: Setting up the `cgn` conda environment**
 
 1. From within the `ao-grasp/contact_graspnet` directory, create a conda env named `cgn` with the provided environment yaml file.
 ```
