@@ -72,10 +72,9 @@ class Object:
                 self._p.changeVisualShape(
                     self.id,
                     j,
-                    rgbaColor=np.array([227, 238, 247, 255])/255.,
-                    #rgbaColor=[0.8, 0.8, 0.8, 1],
+                    rgbaColor=np.array([227, 238, 247, 255]) / 255.0,
+                    # rgbaColor=[0.8, 0.8, 0.8, 1],
                 )
-
 
     def reset(
         self,
@@ -104,10 +103,7 @@ class Object:
             trans = self.init_trans
         if quat is None:
             quat = self.init_quat
-        self._p.resetBasePositionAndOrientation(
-            self.id, trans, quat
-        )
-
+        self._p.resetBasePositionAndOrientation(self.id, trans, quat)
 
     def H_link_to_world(self, link_id):
         if link_id == -1:

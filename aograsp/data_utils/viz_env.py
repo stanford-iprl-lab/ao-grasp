@@ -12,6 +12,7 @@ from aograsp.mesh_utils import create_gripper
 
 # Load dataset paths
 import aograsp.dataset_paths as dataset_paths
+
 PARTNET_MOBILITY_PATH = dataset_paths.PARTNET_MOBILITY_PATH
 VHACD_PATH = dataset_paths.VHACD_PATH
 
@@ -163,7 +164,6 @@ class VizEnv:
                     lineColorRGB=color,
                     lineWidth=3.0,
                 )
-
 
     def step(self):
         self._p.stepSimulation()

@@ -1,6 +1,7 @@
 import numpy as np
 from scipy.spatial.transform import Rotation
 
+
 def get_H(R, p):
     """Construct homogenous transformation matrix H"""
     H = np.zeros((4, 4))

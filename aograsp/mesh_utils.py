@@ -8,6 +8,7 @@ import pickle
 import trimesh
 import trimesh.transformations as tra
 
+
 class PandaGripper(object):
     """An object representing a Franka Panda gripper."""
 
