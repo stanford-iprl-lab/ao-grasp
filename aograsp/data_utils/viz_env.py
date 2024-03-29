@@ -37,22 +37,6 @@ class VizEnv:
         self.draw_point = draw_point
 
         # IDs for debug lines
-        self.debug = True
-        self._debug_dict = {
-            "fail_to_grasp": {"id": -1, "color": [1, 0, 0]},  # RED
-            "fail_to_reach_start_pos": {"id": -1, "color": [1, 1, 1]},  # WHITE
-            "success_good_action": {"id": -1, "color": [0, 1, 0]},  # GREEN
-            "success_bad_action": {"id": -1, "color": [1, 1, 0]},  # YELLOW
-            "fail_touching_obj": {"id": -1, "color": [0, 0, 1]},  # BLUE
-            "fail_to_reach_target_pos_collision": {
-                "id": -1,
-                "color": [1, 1, 1],
-            },  # WHITE
-            "fail_unknown": {"id": -1, "color": [1, 0, 1]},  # MAGENTA
-            "fail_penetrating_obj": {"id": -1, "color": [0.5, 0, 1]},  # PURPLE
-            "not_evaluated": {"id": -1, "color": [0, 0, 0]},  # BLACK
-            "text": {"id": -1, "color": [0, 0, 0]},  # BLACK
-        }
         self.cmap = LinearSegmentedColormap.from_list(
             "", ["crimson", "gold", "limegreen"]
         )
@@ -107,39 +91,31 @@ class VizEnv:
 
         return obj
 
-    def reset(self, grasp_data_dict, grasp_results_df, data_name=""):
+    def reset(self, grasp_data_dict, data_name=""):
         """Environment reset called at the beginning of an episode."""
 
         self.object.reset()  # reset object, sets qpos to config['qpos']
 
         # Visualize grasps
         if grasp_data_dict is not None:
-            self.viz_grasps(grasp_data_dict, grasp_results_df)
+            self.viz_grasps(grasp_data_dict)
 
-            self._debug_dict["text"]["id"] = self._p.addUserDebugText(
+            self._p.addUserDebugText(
                 data_name,
                 [-0.5, 0, 0.5],
                 textColorRGB=[0, 0, 0],
-                replaceItemUniqueId=self._debug_dict["text"]["id"],
                 textSize=1.5,
             )
 
         self._p.stepSimulation()
 
-    def viz_grasps(self, grasp_data_dict, grasp_results_df):
+    def viz_grasps(self, grasp_data_dict):
         for i, grasp_data in grasp_data_dict.items():
-            if grasp_results_df is None or i >= len(grasp_results_df):
-                eval_str = "not_evaluated"
-            else:
-                eval_str = grasp_results_df.loc[grasp_results_df["grasp_id"] == i][
-                    "eval_str"
-                ].item()
-            self.viz_grasp_from_data(grasp_data, eval_str)
+            self.viz_grasp_from_data(grasp_data)
 
     def viz_grasp_from_data(
         self,
         grasp_data,
-        eval_str,
     ):
         """Get grasp info in object frame"""
 
@@ -149,16 +125,9 @@ class VizEnv:
             self.data_H_obj_to_world @ np.append(grasp_data["target_pos"], 1)
         )[:3]
 
-        print("Evaluated", grasp_data["n_proposal"], eval_str)
-        if eval_str != "not_evaluated":
-            if eval_str not in self._debug_dict:
-                color = [0, 0, 0]
-            else:
-                color = self._debug_dict[eval_str]["color"]
-            pt_color = self.cmap(grasp_data["prob"])[:3]
-        else:
-            color = self.cmap(grasp_data["prob"])[:3]
-            pt_color = self.cmap(grasp_data["prob"])[:3]
+        print("Drawing grasp #", grasp_data["n_proposal"])
+        color = self.cmap(grasp_data["prob"])[:3]
+        pt_color = self.cmap(grasp_data["prob"])[:3]
 
         if self.draw_point:
             # Draw point in world frame
@@ -192,33 +161,13 @@ class VizEnv:
                 # Compute gripper viz pts in world frame
                 o_wf = (self.data_H_obj_to_world @ np.append(pts[o], 1))[:3]
                 e_wf = (self.data_H_obj_to_world @ np.append(pts[d], 1))[:3]
-                # o_of = (data_H_world_to_obj @ np.append(pts[o], 1))[:3]
-                # e_of = (data_H_world_to_obj @ np.append(pts[d], 1))[:3]
-                # o_of, e_of = pts[o], pts[d]
                 self._p.addUserDebugLine(
                     o_wf,
                     e_wf,
                     lineColorRGB=color,
                     lineWidth=3.0,
                 )
-                s = str(grasp_data["n_proposal"])
-                if "start_pos" in grasp_data:
-                    text_pos = grasp_data["start_pos"]
-                else:
-                    text_pos = grasp_data["target_pos"]
 
-                # self._p.addUserDebugText(
-                #    text=s,
-                #    textPosition=text_pos,
-                # )
-
-                # if eval_str == "success_good_action":
-                #    self._p.addUserDebugText(
-                #        str(grasp_data["n_proposal"]),
-                #        grasp_data["start_pos"],
-                #        textColorRGB=[0, 0, 0],
-                #        textSize=1,
-                #    )
 
     def step(self):
         self._p.stepSimulation()
@@ -242,10 +191,6 @@ class VizEnv:
         self._p.setRealTimeSimulation(0)
 
         # Debug visualizer camera params
-        # camParams = self._p.getDebugVisualizerCamera()
-        # print("cameraDistance={}, cameraYaw={}, cameraPitch={}, cameraTargetPosition={}".\
-        #        format(camParams[-2], camParams[-4], camParams[-3], camParams[-1]))
-        # self._p.resetDebugVisualizerCamera(cameraDistance=1.492018699645996, cameraYaw=20.76853370666504, cameraPitch=-45.29729080200195, cameraTargetPosition=(-0.026409128680825233, 0.2726774513721466, -0.05787532031536102))
         self._p.resetDebugVisualizerCamera(
             cameraDistance=1.0,
             cameraYaw=-40,

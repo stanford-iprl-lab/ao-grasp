@@ -65,7 +65,7 @@ def viz_grasps(
         if i >= max_to_draw:
             break
 
-    env.reset(grasp_data_dict, None)
+    env.reset(grasp_data_dict, state_path)
     while True:
         env.step()
 
