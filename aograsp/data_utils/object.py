@@ -13,13 +13,7 @@ import aograsp.rotation_utils as r_utils
 
 class Object:
     """
-    Loaded from urdf files
-
-    Args:
-      urdf_path (str) -- Path to urdf file
-      name (str)      -- Name of object
-      init_pos (list) -- Initial position of object
-      scaling (float) -- Scale to scale object by
+    Load partnet-mobility object
     """
 
     def __init__(
@@ -35,6 +29,8 @@ class Object:
         self._p = pybullet_api
 
         self.scaling = scaling
+        self.init_pos = init_pos
+        self.init_quat = init_quat
 
         original_urdf_path = os.path.join(sapien_path, "mobility.urdf")
         if vhacd_root is not None:
@@ -58,11 +54,9 @@ class Object:
                 flags=self._p.URDF_USE_INERTIA_FROM_FILE,
             )
         except:
-            self.valid = False
             raise ValueError(
                 "Failed to load object URDF from specified path {}".format(urdf_path)
             )
-        self.valid = True
 
         mobility_path = os.path.join(sapien_path, "mobility_v2.json")
         with open(mobility_path, "r") as f:
@@ -82,66 +76,38 @@ class Object:
                     #rgbaColor=[0.8, 0.8, 0.8, 1],
                 )
 
-        self.config = {
-            "trans": init_pos,
-            "quat": init_quat,
-            "path": sapien_path,
-            "scaling": scaling,
-        }
-
-        self.disable_motors()
 
     def reset(
         self,
-        random_joint=False,
-        qpos=None,
-        target_joint_list=None,
+        qpos,
         trans=None,
         quat=None,
     ):
         """
         Reset object:
         - set joint positions to qpos
-        - set target_joint_ids and target_link_ids based on target_joint_list
 
         args:
-            random_joint: ??
-            qpos: joint configuration
-            target_joint_list: list of target joint names (string) [NEW]
+            qpos: list of joint angles for each joint in object
         """
 
-        if not self.valid:
-            return
-        if qpos is not None:
-            self.config["qpos"] = qpos
-
-        cur_qpos = self.config["qpos"]
         for joint_id in range(self._p.getNumJoints(self.id)):
             self._p.resetJointState(
                 self.id,
                 joint_id,
-                targetValue=cur_qpos[joint_id],
+                targetValue=qpos[joint_id],
                 targetVelocity=0.0,
             )
 
         # Restore object base pose
-        if trans is not None:
-            self.config["trans"] = trans
-        if quat is not None:
-            self.config["quat"] = quat
+        if trans is None:
+            trans = self.init_trans
+        if quat is None:
+            quat = self.init_quat
         self._p.resetBasePositionAndOrientation(
-            self.id, self.config["trans"], self.config["quat"]
+            self.id, trans, quat
         )
 
-
-    def disable_motors(self):
-        for j in range(self._p.getNumJoints(self.id)):
-            self._p.setJointMotorControlArray(
-                self.id,
-                jointIndices=[j],
-                controlMode=self._p.VELOCITY_CONTROL,
-                forces=[0.0],
-            )
 
     def H_link_to_world(self, link_id):
         if link_id == -1:

@@ -67,24 +67,22 @@ class VizEnv:
     def init_obj(self, object_state):
         """Add object from grasp dataset given init_state dict"""
 
-        self.scaling = object_state["scaling"]
         object_path = os.path.join(
             PARTNET_MOBILITY_PATH,
             os.path.basename(os.path.normpath(object_state["path"])),
         )
 
-        # init_pos, init_quat = sample_object_pose(self._p, range=self.scaling * 0.25)
         obj = Object(
             self._p,
             object_path,
-            scaling=self.scaling,
+            scaling=object_state["scaling"],
             vhacd_root=VHACD_PATH,
         )
-        if "qpos" in object_state:
-            obj.config["qpos"] = object_state["qpos"]  # add qpos to object config
-        obj.config["trans"] = object_state["trans"]
-        obj.config["quat"] = object_state["quat"]
-        obj.reset()  # reset object, sets qpos to config['qpos']
+        obj.reset(
+            object_state["qpos"],
+            trans=object_state["trans"],
+            quat=object_state["quat"],
+        )
 
         # transformation from object to world for object pose in dataset
         self.data_H_obj_to_world = obj.H_link_to_world(obj.base_link_id)
@@ -93,8 +91,6 @@ class VizEnv:
 
     def reset(self, grasp_data_dict, data_name=""):
         """Environment reset called at the beginning of an episode."""
-
-        self.object.reset()  # reset object, sets qpos to config['qpos']
 
         # Visualize grasps
         if grasp_data_dict is not None:
