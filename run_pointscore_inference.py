@@ -47,7 +47,7 @@ def get_heatmap(args):
     pts_arr -= mean
 
     # Randomly shuffle points in pts
-    np.random.shuffle(pts_arr) 
+    np.random.shuffle(pts_arr)
 
     # Get pts as tensor and create input dict for model
     pts = torch.from_numpy(pts_arr).float().to(args.device)
