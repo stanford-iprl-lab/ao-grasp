@@ -130,6 +130,7 @@ def parse_args():
 
 def main(args):
     os.environ["DISPLAY"] = args.display
+    np.random.seed(0)
 
     ### prepare before training
     # make exp_name
