@@ -15,8 +15,8 @@ def main(pc_path, seg_mask=False):
         seg_mask_labels = pc_dict["seg_mask_labels"]
         labels = np.isin(seg_mask_labels, actionable_part_labels).astype(float)
     else:
-        if "labels" in pc_dict:
-            labels = pc_dict["labels"]
+        if "grasp_likelihood_labels" in pc_dict:
+            labels = pc_dict["grasp_likelihood_labels"]
         else:
             raise ValueError("File does not contain grasp-likelihood labels")
 
