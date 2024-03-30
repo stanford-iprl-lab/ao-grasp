@@ -9,7 +9,7 @@ import matplotlib
 import matplotlib.pyplot as plt
 import matplotlib.cm
 import open3d as o3d
-
+from scipy.spatial.transform import Rotation
 
 def get_o3d_pts(pts):
     """
