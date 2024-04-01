@@ -61,26 +61,30 @@ python run_pointscore_inference.py --pcd_path '/juno/u/clairech/ao-grasp/test_da
 
 This will save the predicted scores in `output/point_score/microwave_closed.npz` and a visualization of the scores in `output/point_score_img/microwave_closed.png`.
 
+<img src="aograsp/images/heatmap_microwave_closed.png" width="400">
+
 **Step 3: Setting up the `cgn` conda environment**
 
 1. From within the `ao-grasp/contact_graspnet` directory, create a conda env named `cgn` with the provided environment yaml file.
 ```
 cd contact_graspnet
 conda env create --name cgn --file aograsp_cgn_environment.yml
-conda activate cgn
 ```
 
 2. Download CGN checkpoints
 
 Download trained models from [here](https://drive.google.com/drive/folders/1tBHKf60K8DLM5arm-Chyf7jxkzOr5zGl?usp=sharing) and copy them into the `checkpoints/` folder.
 
-3. Test the installation from the `ao-grasp` directory
+3. Activate the `cgn` conda environment and test the installation from the `ao-grasp` directory
 ```
+conda activate cgn
 cd ..
 python contact_graspnet/contact_graspnet/run_cgn_on_heatmap_file.py '/juno/u/clairech/ao-grasp/output/point_score/microwave_closed.npz' --viz_top_k 1
 ```
 
 This will save an image of the top 1 grasp proposals in `output/grasp_proposals_img/microwave_closed.png`
+
+<img src="aograsp/images/microwave_closed_grasps.png" width="400">
 
 ## Running AO-Grasp
 
@@ -93,6 +97,8 @@ To run this bash script on a provided test point cloud (you may need to change t
 ./get_proposals_from_pcd.sh test_data/real/microwave_open.ply
 ```
 This will save the grasp proposals in `output/grasp_proposals/microwave_open.npz` and a visualization of the top 10 grasp proposals in `output/grasp_proposals_img/microwave_open.mp4`.
+
+<img src="aograsp/images/microwave_open.gif" width="400">
 
 **Format of saved grasp proposal files**
 
