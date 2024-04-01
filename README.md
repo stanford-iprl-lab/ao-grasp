@@ -2,9 +2,9 @@
 
 Carlota Parés Morlans<sup>1*</sup>, Claire Chen<sup>1*</sup>, Yijia Weng<sup>1</sup>, Michelle Yi<sup>1</sup>, Yuying Huang<sup>1</sup>, Nick Heppert<sup>2</sup>, Linqi Zhou<sup>1</sup>, Leonidas Guibas<sup>1</sup>, Jeannette Bohg<sup>1</sup>
 
-[AO-Grasp project page](https://stanford-iprl-lab.github.io/ao-grasp)
-
 <sup>*</sup>Equal Contribution, <sup>1</sup>Stanford University, USA, <sup>2</sup>University of Freiburg, Germany
+
+[AO-Grasp project page](https://stanford-iprl-lab.github.io/ao-grasp)
 
 This repository contains:
 * Code for running AO-Grasp to get actionable grasps for interacting with articulated objects from partial point clouds. See [installation](https://github.com/stanford-iprl-lab/ao-grasp?tab=readme-ov-file#installation) and [usage](https://github.com/stanford-iprl-lab/ao-grasp?tab=readme-ov-file#running-ao-grasp) guides in this readme.
