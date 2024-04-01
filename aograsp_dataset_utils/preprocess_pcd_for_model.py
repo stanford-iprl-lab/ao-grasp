@@ -58,4 +58,5 @@ state = info["state"]
 render_num = info["render_num"]
 save_str = f"{cat}_{ins}_state-{state}_render-{render_num}.ply"
 save_path = os.path.join(args.output_dir, save_str)
+print("Saving point cloud to", save_path)
 o3d.io.write_point_cloud(save_path, pcd)
