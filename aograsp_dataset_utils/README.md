@@ -101,7 +101,7 @@ data_dict = np.load(<path/to/npz_file.npz>, allow_pickle=True)["data"].item()
 
     <img src="images/cam_frame.png" width="400">
 
-    For your convenience, we have provided a function to obtain partial point clouds in a "z-front" camera frame given a path to a `point_cloud_seg.npz` file.  For an example on how to run AO-Grasp inference our `point_cloud_seg.npz` files, we have also included a script that pre-processes our `point_cloud_seg.npz` files directly for input to our AO-Grasp model. These pre-processed point clouds will be, by default, saved to the `test_data/synthetic/` directory.
+    For your convenience, we have provided [a function](https://github.com/stanford-iprl-lab/ao-grasp/blob/20568f68025b8aa1fb2e428e45efd21e317c7809/aograsp/data_utils/dataset_utils.py#L39) to obtain partial point clouds in a "z-front" camera frame given a path to a `point_cloud_seg.npz` file.  For an example on how to run AO-Grasp inference our `point_cloud_seg.npz` files, we have also included [a script](https://github.com/stanford-iprl-lab/ao-grasp/blob/main/aograsp_dataset_utils/preprocess_pcd_for_model.py) that pre-processes our `point_cloud_seg.npz` files directly for input to our AO-Grasp model. These pre-processed point clouds will be, by default, saved to the `test_data/synthetic/` directory.
     
   * See `aograsp_dataset_utils/viz_pointcloud.py` for an example of how we use this file to visualize all grasps contained in a partial point cloud.
 
