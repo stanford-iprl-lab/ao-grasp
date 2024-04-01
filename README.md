@@ -8,16 +8,18 @@ Carlota Parés Morlans<sup>1*</sup>, Claire Chen<sup>1*</sup>, Yijia Weng<sup>1<
 
 This repository contains:
 * Code for running AO-Grasp to get actionable grasps for interacting with articulated objects from partial point clouds. See [installation](https://github.com/stanford-iprl-lab/ao-grasp?tab=readme-ov-file#installation) and [usage](https://github.com/stanford-iprl-lab/ao-grasp?tab=readme-ov-file#running-ao-grasp) guides in this readme.
-  <p float="left">
-  <img src="aograsp/images/gifs/box.gif" width="150" />
-  <img src="aograsp/images/gifs/black-micr.gif" width="150" />
-  <img src="aograsp/images/gifs/hold.gif" width="150" />
-  <img src="aograsp/images/gifs/red-micr.gif" width="150" />
-  <img src="aograsp/images/gifs/oven.gif" width="150" />
-  <img src="aograsp/images/gifs/drawer.gif" width="150" />
+  <p align="center"">
+  <img src="aograsp/images/gifs/box.gif" width="120" />
+  <img src="aograsp/images/gifs/black-micr.gif" width="120" />
+  <img src="aograsp/images/gifs/hold.gif" width="120" />
+  <img src="aograsp/images/gifs/red-micr.gif" width="120" />
+  <img src="aograsp/images/gifs/oven.gif" width="120" />
+  <img src="aograsp/images/gifs/drawer.gif" width="120" />
   </p>
 * Information on how to download the AO-Grasp dataset of actionable grasps on synthetic articulated objects from the [PartNet-Mobility dataset](https://sapien.ucsd.edu/browse). See [this readme](https://github.com/stanford-iprl-lab/ao-grasp/tree/main/aograsp_dataset_utils#ao-grasp-dataset) for more information.
-  
+  <p align="center"">
+  <img src="aograsp/images/gifs/dataset.gif" width="500">
+  </p>
 
 ## Installation
 
