@@ -122,8 +122,8 @@ prop_dict = np.load(<path/to/proposal.npz>, allow_pickle=True)["data"].item()
 To run AO-Grasp on your own data using our provided script, you must save point clouds in the [Open3d point cloud format](https://www.open3d.org/docs/release/python_api/open3d.io.write_point_cloud.html). For best performance, here are a few things to look out for when using your own data:
 
 - Point clouds must have 4096 points.
-- The object point cloud must be segmented out from the full scene
-- Point clouds should be in and image coordinate system that is right-handed with the positive Y-axis pointing down, X-axis pointing right and Z-axis pointing away from the camera (ie. towards the object). This is the [default camera frame](https://www.stereolabs.com/docs/positional-tracking/coordinate-frames#selecting-a-coordinate-system) used by the Zed2 camera that we used to capture our real-world point clouds.
+- The object point cloud must be segmented out from the full scene.
+- Point clouds should be in an image coordinate system that is right-handed with the positive Y-axis pointing down, X-axis pointing right and Z-axis pointing away from the camera (ie. towards the object). This is the [default camera frame](https://www.stereolabs.com/docs/positional-tracking/coordinate-frames#selecting-a-coordinate-system) used by the Zed2 camera that we used to capture our real-world point clouds.
 
   <img src="aograsp/images/zed_right_handed.jpeg" width="100">
 
