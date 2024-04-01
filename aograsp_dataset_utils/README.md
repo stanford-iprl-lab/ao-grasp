@@ -96,7 +96,17 @@ data_dict = np.load(<path/to/npz_file.npz>, allow_pickle=True)["data"].item()
     "pos_grasp_ids": array of ids of positive grasps in dataset,
   }
   ```
-  See `aograsp_dataset_utils/viz_pointcloud.py` for an example of how we use this file to visualize all grasps contained in a partial point cloud.
+
+  * **A note on camera frames:** The camera transform stored in this file is for a "x-front" camera frame (right-handed coordinate system with z axis pointing up, and x axis pointing forward) which is how they were catpured in PyBullet. However, to match the common image frame convention used by many depth cameras like the [Zed2 camera](https://www.stereolabs.com/docs/positional-tracking/coordinate-frames#selecting-a-coordinate-system), we train the AO-Grasp model on point clouds represented in a "z-front" camera frame (right-handed with the positive Y-axis pointing down, X-axis pointing right and Z-axis pointing out of the camera towards the scene).
+    
+  <p float="left">
+  <img src="images/x_front.png" width="300" />
+  <img src="images/z_front.png" width="300" /> 
+  </p>
+
+    For your convenience, we have provided a function to obtain partial point clouds in a "z-front" camera frame given a path to a `point_cloud_seg.npz` file.  For an example on how to run AO-Grasp inference our `point_cloud_seg.npz` files, we have also included a script that pre-processes our `point_cloud_seg.npz` files directly for input to our AO-Grasp model. These pre-processed point clouds will be, by default, saved to the `test_data/synthetic/` directory.
+    
+  * See `aograsp_dataset_utils/viz_pointcloud.py` for an example of how we use this file to visualize all grasps contained in a partial point cloud.
 
 * Partial point cloud: `<state_path>/render/<viewpoint_id>/point_cloud_seg.npz`
   ```
