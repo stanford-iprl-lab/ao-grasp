@@ -8,7 +8,7 @@ Fill out [this form](https://forms.gle/EVZbZGMYRiyKpo6GA) to download the AO-Gra
 
 ## Contents of the AO-Grasp dataset
 
-### AO-Grasp dataset
+### AO-Grasp dataset (`aograsp_dataset.zip`)
 
 **Directory structure**
 
@@ -49,16 +49,65 @@ aograsp_dataset_2024
 
 **Contents of `.npz` files**
 
-Below, we detail the contents of each of the `.npz` you'll find in the AO-Grasp dataset (see directory structure above):
+Below, we detail the contents of each of the `.npz` you'll find in the AO-Grasp dataset (see directory structure above). To read these `.npz` files, we recommend using the following:
+
+```
+data_dict = np.load(<path/to/npz_file.npz>, allow_pickle=True)["data"].item()
+```
 
 * Object state: `<state_path>/init_state.npz`
+  ```
+  {
+	"object": {
+		"trans": object base position
+		"quat": object base quaternion (xyzw)
+		"ins_id": ID of instance
+		"scaling": object scale
+		"qpos": object joint configuration
+	}
+  }
+  ```
+  See `aograsp_dataset_utils/viz_grasps_pybullet.py` for an example of how we use this file to load objects into PyBullet.
+  
 * Full point cloud: `<state_path>/point_cloud_info.npz`
+  ```
+  {
+	"pts": full point cloud [100000,3],
+	"seg_mask_labels": segmentation mask labels [100000,],
+  	"actionable_part_labels":  list of actionable part segmentation mask labels,
+  }
+  ```
 * Grasp: `<state_path>/raw/<grasp_label>/0000.npz`
+  ```
+  {
+    "pos_wf": end-effector xyz position, in world frame [3,], 
+    "quat_wf": end-effector orientation as xyzw quaternion [4,],
+    "after_grasp_quat_wf": end-effector orientation, after gripper has closed, as xyzw quaternion [4,],
+  }
+  ```
 * Partial point cloud info: `<state_path>/render/<viewpoint_id>/info.npz`
+  ```
+  {
+	"camera_config": {
+		"trans": camera position in world frame
+		"quat": camera orientation (xyzw quaternion) in world frame
+	},
+	"neg_grasp_ids": array of ids of negative grasps in dataset,
+	"pos_grasp_ids": array of ids of positive grasps in dataset,
+  }
+  ```
+  See `aograsp_dataset_utils/viz_pointcloud.py` for an example of how we use this file to visualize all grasps contained in a partial point cloud.
+
 * Partial point cloud: `<state_path>/render/<viewpoint_id>/point_cloud_seg.npz`
+  {
+    "pts": [N, 3] points in partial point cloud,
+    "seg_mask_labels": [N,] segmentation mask labels,
+    "grasp_likelihood_labels": [N,] pseudo-ground truth grasp likelihood labels,
+    "actionable_part_labels": list of actionable part segmentation mask labels,
+}
 
 
-### Pre-processed object meshes
+### Pre-processed object meshes (`aograsp_instances.zip`)
 
 Note: The instances we include here are only a subset of the PartNet-Mobility dataset. To download the full PartNet-Mobility dataset, visit their [webpage](https://sapien.ucsd.edu/downloads).
 
