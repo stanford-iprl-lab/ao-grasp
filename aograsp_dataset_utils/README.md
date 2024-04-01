@@ -10,6 +10,23 @@ Fill out [this form](https://forms.gle/EVZbZGMYRiyKpo6GA) to download the AO-Gra
 
 ### AO-Grasp dataset
 
+*Directory structure*
+
+```
+aograsp_dataset_2024
+└── Box                              # category
+    └── 47645                        # instance
+        └── 0                        # state, 10 per instance
+            ├── init_state.npz       # information for loading object into PyBullet
+            ├── point_cloud_info.npz # full point cloud and segmentation mask
+            └── raw/                 # grasp data files
+                └── pos/             # positive grasps
+                └── neg/             # negative grasps
+            └── raw_ref_img/         # grasp data images
+            └── render/              # partial point clouds, 20 per state
+
+```
+
 ### Pre-processed object meshes
 
 Note: The instances we include here are only a subset of the PartNet-Mobility dataset. To download the full PartNet-Mobility dataset, visit their [webpage](https://sapien.ucsd.edu/downloads).
@@ -17,3 +34,9 @@ Note: The instances we include here are only a subset of the PartNet-Mobility da
 ## Visualizing the AO-Grasp dataset
 
 After you have downloaded the dataset and object meshes, we provide two scripts to visualize the data.
+
+**Visualizing grasps in PyBullet on object instance**
+
+To run this script, make sure the `aograsp_instances` directory is contained in the top-level `ao-grasp` directory.
+
+**Visualizing point clouds**
