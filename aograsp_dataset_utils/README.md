@@ -43,8 +43,8 @@ aograsp_dataset_2024
                     ├── rgb.png              # RGB image of object from viewpoint 0
                     ├── seg.png              # segmentation mask visualization from viewpoint 0
                     ├── depth.png            # depth image from viewpoint 0
-                └── ..../                    # camera viewpoints 1, 2,... 19
-        └── ...                              # states 1, 2,...9
+                └── ..../                    # camera viewpoints 1, 2,...,19
+        └── ...                              # states 1, 2,...,9
     └── ...                                  # other instances
 └── ...                                      # other categories
 
