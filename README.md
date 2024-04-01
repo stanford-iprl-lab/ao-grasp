@@ -59,14 +59,15 @@ cd ../../../ # Navigate back to top-level directory
 python run_pointscore_inference.py --pcd_path '/juno/u/clairech/ao-grasp/test_data/real/microwave_closed.ply'
 ```
 
-This will save the predicted scores in `output/point_score/microwave_closed.npz` and a visualization of the scores in `output/point_score/microwave_closed.npz`.
+This will save the predicted scores in `output/point_score/microwave_closed.npz` and a visualization of the scores in `output/point_score_img/microwave_closed.png`.
 
 **Step 3: Setting up the `cgn` conda environment**
 
 1. From within the `ao-grasp/contact_graspnet` directory, create a conda env named `cgn` with the provided environment yaml file.
 ```
 cd contact_graspnet
-conda env create --name cgn --file aograsp_cgn_environment.yml 
+conda env create --name cgn --file aograsp_cgn_environment.yml
+conda activate cgn
 ```
 
 2. Download CGN checkpoints
