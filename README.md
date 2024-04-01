@@ -8,7 +8,7 @@ Carlota Parés Morlans<sup>1*</sup>, Claire Chen<sup>1*</sup>, Yijia Weng<sup>1<
 
 This repository contains:
 * Code for running AO-Grasp to get actionable grasps for interacting with articulated objects from partial point clouds. See [installation](https://github.com/stanford-iprl-lab/ao-grasp?tab=readme-ov-file#installation) and [usage](https://github.com/stanford-iprl-lab/ao-grasp?tab=readme-ov-file#running-ao-grasp) guides in this readme.
-* Information on how to download the AO-Grasp dataset of actionable grasps on synthetic articulated objects from the [PartNet-Mobility dataset](https://sapien.ucsd.edu/browse). See this readme for more information.
+* Information on how to download the AO-Grasp dataset of actionable grasps on synthetic articulated objects from the [PartNet-Mobility dataset](https://sapien.ucsd.edu/browse). See [this readme](https://github.com/stanford-iprl-lab/ao-grasp/tree/main/aograsp_dataset_utils#ao-grasp-dataset) for more information.
 
 ## Installation
 
