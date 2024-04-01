@@ -111,6 +111,8 @@ data_dict = np.load(<path/to/npz_file.npz>, allow_pickle=True)["data"].item()
 
 ### Pre-processed object meshes (`aograsp_instances.zip`)
 
+We have pre-processed the PartNet-Mobility instances used by AO-Grasp by running V-HACD on their meshes to obtain convex meshes, which we find result in better collision geometries in PyBullet. Each instance directory contains the object URDF (`mobility.urdf`) as well as the pre-processed meshes in `textured_objs/`. 
+
 Note: The instances we include here are only a subset of the PartNet-Mobility dataset. To download the full PartNet-Mobility dataset, visit their [webpage](https://sapien.ucsd.edu/downloads).
 
 ## Visualizing the AO-Grasp dataset
