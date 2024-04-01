@@ -123,4 +123,7 @@ To run AO-Grasp on your own data using our provided script, you must save point 
 
 - Point clouds must have 4096 points.
 - The object point cloud must be segmented out from the full scene
+- Point clouds should be in and image coordinate system that is right-handed with the positive Y-axis pointing down, X-axis pointing right and Z-axis pointing away from the camera (ie. towards the object). This is the [default camera frame](https://www.stereolabs.com/docs/positional-tracking/coordinate-frames#selecting-a-coordinate-system) used by the Zed2 camera that we used to capture our real-world point clouds.
+
+
 
