@@ -55,6 +55,7 @@ pip install -e .
 6. Test the installation by predicting the per-point grasp likelihood scores on a provided test point cloud:
 
 ```
+cd ../../../ # Navigate back to top-level directory
 python run_pointscore_inference.py --pcd_path '/juno/u/clairech/ao-grasp/test_data/real/microwave_closed.ply'
 ```
 
