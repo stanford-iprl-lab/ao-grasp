@@ -70,7 +70,7 @@ class VizEnv:
 
         object_path = os.path.join(
             PARTNET_MOBILITY_PATH,
-            os.path.basename(os.path.normpath(object_state["path"])),
+            object_state["ins_id"],
         )
 
         obj = Object(
@@ -137,7 +137,7 @@ class VizEnv:
         if self.draw_gripper:
             # Compute gripper viz pts in object frame
             g = np.zeros((4, 4))
-            rot = r_utils.get_matrix_from_ori(grasp_data["start_ori"])
+            rot = r_utils.get_matrix_from_quat(grasp_data["start_ori"])
             g[:3, :3] = rot
             g[:3, 3] = grasp_data["target_pos"].T
             g[3, 3] = 1

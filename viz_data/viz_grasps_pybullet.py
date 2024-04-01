@@ -36,27 +36,14 @@ def viz_grasps(
         data_path = os.path.join(raw_data_dir, item)
         grasp_dict = np.load(data_path, allow_pickle=True)["data"].item()
 
-        try:
-            ag_pos_wf = grasp_dict["eef_pos_traj"][
-                grasp_dict["traj_mode_start_times"]["PULL_HANDLE"]
-            ]
-            ag_quat_wf = grasp_dict["eef_ori_traj"][
-                grasp_dict["traj_mode_start_times"]["PULL_HANDLE"]
-            ]
-            ag_ori_wf = r_utils.get_ori_from_quat(ag_quat_wf)
-        except:
-            ag_pos_wf = grasp_dict["pos_wf"]
-            ag_ori_wf = grasp_dict["ori_wf"]
-
         if use_ag_ori:
-            target_ori = ag_ori_wf
+            target_ori = grasp_dict["after_grasp_quat_wf"]
         else:
-            target_ori = grasp_dict["ori_wf"]
+            target_ori = grasp_dict["quat_wf"]
 
         data = {
             "target_pos": grasp_dict["pos_wf"],
             "start_ori": target_ori,
-            "heuristic": grasp_dict["heuristic"],
             "prob": 1.0,
             "n_proposal": i,
         }
