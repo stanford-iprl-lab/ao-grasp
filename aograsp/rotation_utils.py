@@ -27,3 +27,6 @@ def get_H_inv(H):
 
 def get_matrix_from_ori(ori):
     return Rotation.from_euler("xyz", ori).as_matrix()
+
+def get_matrix_from_quat(quat):
+    return Rotation.from_quat(quat).as_matrix()
