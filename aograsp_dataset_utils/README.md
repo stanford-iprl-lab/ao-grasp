@@ -123,4 +123,32 @@ After you have downloaded the dataset and object meshes, we provide two scripts 
 
 To run this script, make sure the `aograsp_instances` directory is contained in the top-level `ao-grasp` directory.
 
+To visualize positive grasps on an object instance for a given state (ie. Microwave 7221 state 1), use the following command (passing in the desired state path in the `aograsp_dataset_2024` directory:
+
+```
+python aograsp_dataset_utils/viz_grasps_pybullet.py --state_path <path/to>/aograsp_dataset_2024/Microwave/7221/1/
+```
+
 **Visualizing point clouds**
+
+We also provide a script to visualize the various point clouds in the AO-Grasp dataset. 
+
+**Full point clouds**
+
+To visualize a full point cloud (in `<state_path>/point_cloud_info.npz` files) with the segmentation mask (actionable parts in green):
+```
+python aograsp_dataset_utils/viz_pointcloud.py <path/to>/aograsp_dataset_2024/Microwave/7221/1/point_cloud_info.npz --seg_mask
+```
+
+**Partial point clouds**
+
+To visualize a partial point cloud (in `<state_path>/render/<viewpoint_id>/point_cloud_seg.npz` files), by default with ground-truth dense grasp-likelihood labels:
+```
+python aograsp_dataset_utils/viz_pointcloud.py <path/to>/aograsp_dataset_2024/Microwave/7221/1/render/0000/point_cloud_seg.npz
+```
+
+Optionally, for partial point clouds, you may also view the partial point cloud with the segmentation mask (actionable parts in green), using `--seg_mask`:
+
+And with the ground truth positive grasps, using `--gt_grasps`:
+
+
