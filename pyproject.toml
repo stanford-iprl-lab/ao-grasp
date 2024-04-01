@@ -19,5 +19,5 @@ classifiers = [
 ]
 
 [tool.setuptools.packages.find]
-include = ["ao-grasp*"]
+include = ["aograsp*"]
 exclude = ["viz_data*", "test_data*"]

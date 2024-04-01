@@ -1,6 +1,14 @@
 # AO-Grasp: Articulated Object Grasp Generation
 
-Get actionable grasps for interacting with articulated objects from partial point clouds.
+[AO-Grasp project page](https://stanford-iprl-lab.github.io/ao-grasp)
+
+Carlota Parés Morlans<sup>1*</sup>, Claire Chen<sup>1*</sup>, Yijia Weng<sup>1</sup>, Michelle Yi<sup>1</sup>, Yuying Huang<sup>1</sup>, Nick Heppert<sup>2</sup>, Linqi Zhou<sup>1</sup>, Leonidas Guibas<sup>1</sup>, Jeannette Bohg<sup>1</sup>
+
+<sup>*</sup>Equal Contribution, <sup>1</sup>Stanford University, USA, <sup>2</sup>University of Freiburg, Germany
+
+This repository contains:
+* Code for running AO-Grasp to get actionable grasps for interacting with articulated objects from partial point clouds. See [installation](https://github.com/stanford-iprl-lab/ao-grasp?tab=readme-ov-file#installation) and [usage](https://github.com/stanford-iprl-lab/ao-grasp?tab=readme-ov-file#running-ao-grasp) guides in this readme.
+* Information on how to download the AO-Grasp dataset of actionable grasps on synthetic articulated objects from the [PartNet-Mobility dataset](https://sapien.ucsd.edu/browse). See this readme for more information.
 
 ## Installation
 
@@ -47,6 +55,7 @@ pip install -e .
 6. Test the installation by predicting the per-point grasp likelihood scores on a provided test point cloud:
 
 ```
+cd ../../../ # Navigate back to top-level directory
 python run_pointscore_inference.py --pcd_path '/juno/u/clairech/ao-grasp/test_data/real/microwave_closed.ply'
 ```
 
