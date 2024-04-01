@@ -128,6 +128,7 @@ To visualize positive grasps on an object instance for a given state (ie. Microw
 ```
 python aograsp_dataset_utils/viz_grasps_pybullet.py --state_path <path/to>/aograsp_dataset_2024/Microwave/7221/1/
 ```
+<img src="images/viz_pybullet_example_7221_state1.png" width="400">
 
 **Visualizing point clouds**
 
@@ -139,6 +140,7 @@ To visualize a full point cloud (in `<state_path>/point_cloud_info.npz` files) w
 ```
 python aograsp_dataset_utils/viz_pointcloud.py <path/to>/aograsp_dataset_2024/Microwave/7221/1/point_cloud_info.npz --seg_mask
 ```
+<img src="images/full_pcd.png" width="400">
 
 **Partial point clouds**
 
@@ -146,9 +148,14 @@ To visualize a partial point cloud (in `<state_path>/render/<viewpoint_id>/point
 ```
 python aograsp_dataset_utils/viz_pointcloud.py <path/to>/aograsp_dataset_2024/Microwave/7221/1/render/0000/point_cloud_seg.npz
 ```
+<img src="images/partial_pcd_heatmap.png" width="350">
 
 Optionally, for partial point clouds, you may also view the partial point cloud with the segmentation mask (actionable parts in green), using `--seg_mask`:
 
+<img src="images/partial_pcd_mask.png" width="300">
+
 And with the ground truth positive grasps, using `--gt_grasps`:
+
+<img src="images/partial_pcd_grasps.png" width="350">
 
 
