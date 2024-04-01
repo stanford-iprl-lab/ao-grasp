@@ -10,12 +10,7 @@ from aograsp.data_utils.object import Object
 import aograsp.rotation_utils as r_utils
 from aograsp.mesh_utils import create_gripper
 
-# Load dataset paths
-import aograsp.dataset_paths as dataset_paths
-
-PARTNET_MOBILITY_PATH = dataset_paths.PARTNET_MOBILITY_PATH
-VHACD_PATH = dataset_paths.VHACD_PATH
-
+PARTNET_MOBILITY_PATH = "aograsp_instances"
 
 class VizEnv:
     def __init__(
@@ -77,7 +72,6 @@ class VizEnv:
             self._p,
             object_path,
             scaling=object_state["scaling"],
-            vhacd_root=VHACD_PATH,
         )
         obj.reset(
             object_state["qpos"],

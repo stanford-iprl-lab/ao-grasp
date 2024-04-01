@@ -24,7 +24,6 @@ class Object:
         init_quat=[0, 0, 0, 1],
         scaling=1.0,
         filter_cat=False,
-        vhacd_root=None,
     ):
         self._p = pybullet_api
 
@@ -32,19 +31,7 @@ class Object:
         self.init_pos = init_pos
         self.init_quat = init_quat
 
-        original_urdf_path = os.path.join(sapien_path, "mobility.urdf")
-        if vhacd_root is not None:
-            urdf_path = pjoin(vhacd_root, sapien_path.split("/")[-1], "mobility.urdf")
-            if not os.path.exists(urdf_path):
-                # No VHACD meshes found; use original meshes
-                urdf_path = original_urdf_path
-        else:
-            urdf_path = original_urdf_path
-
-        if urdf_path == original_urdf_path:
-            print("Using original meshes")
-        else:
-            print(("Using VHACD meshes"))
+        urdf_path = os.path.join(sapien_path, "mobility.urdf")
 
         try:
             self.id = self._p.loadURDF(
@@ -58,23 +45,18 @@ class Object:
                 "Failed to load object URDF from specified path {}".format(urdf_path)
             )
 
-        mobility_path = os.path.join(sapien_path, "mobility_v2.json")
-        with open(mobility_path, "r") as f:
-            self.mobility_v2 = json.load(f)
-
         self.base_link_id = -1  # This is convention of how URDFs are loaded
 
         # Change color of links to all gray
         for j in range(self._p.getNumJoints(self.id)):
-            if vhacd_root is not None:
-                # If loading vhacd meshes, make object all-gray
-                # because obj files do not have textures
-                self._p.changeVisualShape(
-                    self.id,
-                    j,
-                    rgbaColor=np.array([227, 238, 247, 255]) / 255.0,
-                    # rgbaColor=[0.8, 0.8, 0.8, 1],
-                )
+            # If loading vhacd meshes, make object all-gray
+            # because obj files do not have textures
+            self._p.changeVisualShape(
+                self.id,
+                j,
+                rgbaColor=np.array([227, 238, 247, 255]) / 255.0,
+                # rgbaColor=[0.8, 0.8, 0.8, 1],
+            )
 
     def reset(
         self,
