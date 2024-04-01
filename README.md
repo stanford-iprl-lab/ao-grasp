@@ -100,6 +100,8 @@ This will save the grasp proposals in `output/grasp_proposals/microwave_open.npz
 
 <img src="aograsp/images/microwave_open.gif" width="400">
 
+We have provided a few real and synthetic test point clouds in the `test_data/` directory.
+
 **Format of saved grasp proposal files**
 
 A `grasp_proposals/proposal.npz` contains a single python dictionary with the following contents:
