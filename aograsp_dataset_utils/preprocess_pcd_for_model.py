@@ -29,7 +29,7 @@ parser.add_argument(
     "--visualize",
     "-v",
     action="store_true",
-    help="Use this flag to visualize point cloud in o3d"
+    help="Use this flag to visualize point cloud in o3d",
 )
 args = parser.parse_args()
 
@@ -42,15 +42,13 @@ pts_cf = d_utils.get_aograsp_pts_in_cam_frame_z_front(args.pc_file)
 if args.visualize:
     print("Visualizing point cloud with Open3D...")
     v_utils.viz_heatmap(
-        pts_cf, pcd_dict["grasp_likelihood_labels"],
-        draw_frame=True,
-        frame="camera"
+        pts_cf, pcd_dict["grasp_likelihood_labels"], draw_frame=True, frame="camera"
     )
 
 # Downsample to 4096 points
 pcd = v_utils.get_o3d_pts(pts_cf)
 
-# Save as .ply 
+# Save as .ply
 if not os.path.exists(args.output_dir):
     os.makedirs(args.output_dir)
 info = d_utils.get_info_from_path(os.path.dirname(args.pc_file))
@@ -60,6 +58,4 @@ state = info["state"]
 render_num = info["render_num"]
 save_str = f"{cat}_{ins}_state-{state}_render-{render_num}.ply"
 save_path = os.path.join(args.output_dir, save_str)
-o3d.io.write_point_cloud(
-    save_path, pcd
-)
+o3d.io.write_point_cloud(save_path, pcd)

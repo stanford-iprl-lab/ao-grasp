@@ -7,6 +7,7 @@ import os
 
 import aograsp.rotation_utils as r_utils
 
+
 def get_dir_order_list(dir_order):
     """Get dir order list from path"""
 
@@ -15,6 +16,7 @@ def get_dir_order_list(dir_order):
     if dir_order_list[-1] == "":
         dir_order_list.pop()
     return dir_order_list
+
 
 def get_info_from_path(path, dir_order="cat/ins/state/render_dir/render_num"):
     """
@@ -33,6 +35,7 @@ def get_info_from_path(path, dir_order="cat/ins/state/render_dir/render_num"):
         info[key] = dirs[-(i + 1)]
     return info
 
+
 def get_aograsp_pts_in_cam_frame_z_front(pc_path):
     """
     Given a path to a partial point cloud render/000*/point_cloud_seg.npz
@@ -46,7 +49,10 @@ def get_aograsp_pts_in_cam_frame_z_front(pc_path):
     # Load camera pose information
     render_dir = os.path.dirname(pc_path)
     info_path = os.path.join(render_dir, "info.npz")
-    if not os.path.exists(info_path): raise ValueError("info.npz cannot be found. Please ensure that you are passing in a path to a point_cloud_seg.npz file")
+    if not os.path.exists(info_path):
+        raise ValueError(
+            "info.npz cannot be found. Please ensure that you are passing in a path to a point_cloud_seg.npz file"
+        )
     info_dict = np.load(info_path, allow_pickle=True)["data"].item()
     cam_pos = info_dict["camera_config"]["trans"]
     cam_quat = info_dict["camera_config"]["quat"]
@@ -58,6 +64,7 @@ def get_aograsp_pts_in_cam_frame_z_front(pc_path):
     pts_cf = r_utils.transform_pts(pts_wf, H_world2cam_zfront)
 
     return pts_cf
+
 
 def get_H_world_to_cam_z_front_from_x_front(H_world_to_cam_x_front):
     """
