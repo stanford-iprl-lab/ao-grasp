@@ -12,6 +12,7 @@ from aograsp.mesh_utils import create_gripper
 
 PARTNET_MOBILITY_PATH = "aograsp_instances"
 
+
 class VizEnv:
     def __init__(
         self,
