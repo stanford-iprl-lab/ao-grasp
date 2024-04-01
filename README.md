@@ -1,8 +1,17 @@
 # AO-Grasp: Articulated Object Grasp Generation
 
+Carlota Parés Morlans<sup>1*</sup>, Claire Chen<sup>1*</sup>, Yijia Weng<sup>1</sup>, Michelle Yi<sup>1</sup>, Yuying Huang<sup>1</sup>, Nick Heppert<sup>2</sup>, Linqi Zhou<sup>1</sup>, Leonidas Guibas<sup>1</sup>, Jeannette Bohg<sup>1</sup>
+
 [AO-Grasp project page](https://stanford-iprl-lab.github.io/ao-grasp)
 
-Carlota Parés Morlans<sup>1*</sup>, Claire Chen<sup>1*</sup>, Yijia Weng<sup>1</sup>, Michelle Yi<sup>1</sup>, Yuying Huang<sup>1</sup>, Nick Heppert<sup>2</sup>, Linqi Zhou<sup>1</sup>, Leonidas Guibas<sup>1</sup>, Jeannette Bohg<sup>1</sup>
+<p float="left">
+  <img src="aograsp/images/gifs/box.gif" width="150" />
+  <img src="aograsp/images/gifs/black-micr.gif" width="150" />
+  <img src="aograsp/images/gifs/hold.gif" width="150" />
+  <img src="aograsp/images/gifs/red-micr.gif" width="150" />
+  <img src="aograsp/images/gifs/oven.gif" width="150" />
+  <img src="aograsp/images/gifs/drawer.gif" width="150" />
+</p>
 
 <sup>*</sup>Equal Contribution, <sup>1</sup>Stanford University, USA, <sup>2</sup>University of Freiburg, Germany
 
