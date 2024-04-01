@@ -10,7 +10,7 @@ Fill out [this form](https://forms.gle/EVZbZGMYRiyKpo6GA) to download the AO-Gra
 
 ### AO-Grasp dataset
 
-*Directory structure*
+**Directory structure**
 
 ```
 aograsp_dataset_2024
@@ -37,15 +37,26 @@ aograsp_dataset_2024
                     ├── ...                  # images for negative grasps 1, 2, 3...             
             └── render/                      # partial point clouds, 20 per state
                 ├── all_renders.png          # RGB images of all 20 camera viewpoints
-                └── 0000/                    # Camera viewpoint 0
-                    ├── info.npz             # Camera pose, IDs of ground truth grasps in partial point cloud  
-                    ├── point_cloud_seg.npz  # Partial point cloud from viewpoint 0, segmentation mask, ground truth grasp-likelihood labels 
+                └── 0000/                    # camera viewpoint 0
+                    ├── info.npz             # camera pose, IDs of ground truth grasps in partial point cloud  
+                    ├── point_cloud_seg.npz  # partial point cloud from viewpoint 0, segmentation mask, ground truth grasp-likelihood labels 
                     ├── rgb.png              # RGB image of object from viewpoint 0
-                    ├── seg.png              # Segmentation mask visualization from viewpoint 0
-                    ├── depth.png            # Depth image from viewpoint 0
-                └── ..../                    # Camera viewpoints 1, 2,... 19
+                    ├── seg.png              # segmentation mask visualization from viewpoint 0
+                    ├── depth.png            # depth image from viewpoint 0
+                └── ..../                    # camera viewpoints 1, 2,... 19
 
 ```
+
+**Contents of `.npz` files**
+
+Below, we detail the contents of each of the `.npz` you'll find in the AO-Grasp dataset (see directory structure above):
+
+* Object state: `<state_path>/init_state.npz`
+* Full point cloud: `<state_path>/point_cloud_info.npz`
+* Grasp: `<state_path>/raw/<grasp_label>/0000.npz`
+* Partial point cloud info: `<state_path>/render/<viewpoint_id>/info.npz`
+* Partial point cloud: `<state_path>/render/<viewpoint_id>/point_cloud_seg.npz`
+
 
 ### Pre-processed object meshes
 
