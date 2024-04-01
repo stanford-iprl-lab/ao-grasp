@@ -13,6 +13,7 @@ from scipy.spatial.transform import Rotation
 
 import aograsp.mesh_utils as mesh_utils
 
+
 def get_o3d_pts(pts):
     """
     Get open3d pcd from pts np.array
@@ -171,11 +172,11 @@ def get_eef_line_set_for_o3d_viz(eef_pos_list, eef_quat_list, highlight_top_k=No
         if highlight_top_k is not None:
             if i < highlight_top_k:
                 # Draw grasp in green
-                colors = [[0,1,0] for i in range(len(lines))]
+                colors = [[0, 1, 0] for i in range(len(lines))]
             else:
-                colors = [[0,0,0] for i in range(len(lines))]
+                colors = [[0, 0, 0] for i in range(len(lines))]
         else:
-            colors = [[0,0,0] for i in range(len(lines))]
+            colors = [[0, 0, 0] for i in range(len(lines))]
 
         line_set = o3d.geometry.LineSet(
             points=o3d.utility.Vector3dVector(pts),
@@ -196,7 +197,7 @@ def viz_pts_and_eef_o3d(
     frame="world",
     draw_frame=False,
     highlight_top_k=None,
-    pcd_rgb=None
+    pcd_rgb=None,
 ):
     """
     Plot eef in o3d visualization, with point cloud, at positions and
@@ -218,7 +219,9 @@ def viz_pts_and_eef_o3d(
 
     # Get line_set for drawing eef in o3d
     line_set_list = get_eef_line_set_for_o3d_viz(
-        eef_pos_list, eef_quat_list, highlight_top_k=highlight_top_k,
+        eef_pos_list,
+        eef_quat_list,
+        highlight_top_k=highlight_top_k,
     )
 
     vis = o3d.visualization.Visualizer()

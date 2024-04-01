@@ -9,8 +9,8 @@ import os
 
 import aograsp.viz_utils as v_utils
 
-def main(args):
 
+def main(args):
     pc_dict = np.load(args.pc_file, allow_pickle=True)["data"].item()
     pts = pc_dict["pts"]
 
@@ -22,12 +22,16 @@ def main(args):
         if "grasp_likelihood_labels" in pc_dict:
             labels = pc_dict["grasp_likelihood_labels"]
         else:
-            raise ValueError("File does not contain grasp-likelihood labels. Try running script with the --seg_mask flag, or running it on a render/00**/point_cloud_seg.npz file.")
-    
+            raise ValueError(
+                "File does not contain grasp-likelihood labels. Try running script with the --seg_mask flag, or running it on a render/00**/point_cloud_seg.npz file."
+            )
+
     # Visualize ground truth grasps by appending points to "pts"
     if args.gt_grasps:
         if os.path.basename(args.pc_file) != "point_cloud_seg.npz":
-            raise ValueError("Can only visualize ground truth grasps on render/00**/point_cloud_seg.npz files")
+            raise ValueError(
+                "Can only visualize ground truth grasps on render/00**/point_cloud_seg.npz files"
+            )
 
         # Load ids of gt grasps from info.npz file
         info_path = os.path.join(os.path.dirname(args.pc_file), "info.npz")
@@ -51,18 +55,18 @@ def main(args):
 
     if args.gt_grasps:
         v_utils.viz_pts_and_eef_o3d(
-            pts,
-            eef_pos_list,
-            eef_quat_list,
-            heatmap_labels=labels
+            pts, eef_pos_list, eef_quat_list, heatmap_labels=labels
         )
     else:
         v_utils.viz_heatmap(pts, labels)
 
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        "pc_file", type=str, help="Path to .npz with point cloud or heatmap to visualize"
+        "pc_file",
+        type=str,
+        help="Path to .npz with point cloud or heatmap to visualize",
     )
     parser.add_argument(
         "--seg_mask",
@@ -72,7 +76,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--gt_grasps",
         action="store_true",
-        help="Visualize ground truth grasps on partial point cloud. ONLY for render/00**/point_cloud_seg.npz files"
+        help="Visualize ground truth grasps on partial point cloud. ONLY for render/00**/point_cloud_seg.npz files",
     )
     args = parser.parse_args()
     main(args)
