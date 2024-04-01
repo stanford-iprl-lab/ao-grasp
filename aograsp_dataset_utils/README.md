@@ -117,7 +117,11 @@ Note: The instances we include here are only a subset of the PartNet-Mobility da
 
 ## Visualizing the AO-Grasp dataset
 
-After you have downloaded the dataset and object meshes, we provide two scripts to visualize the data.
+After you have downloaded the dataset and object meshes, we provide two scripts to visualize the data. You will need to be in the `ao-grasp` conda environment you created in [Step 1 of our installation instructions](https://github.com/stanford-iprl-lab/ao-grasp?tab=readme-ov-file#installation):
+
+```
+conda activate ao-grasp
+```
 
 **Visualizing grasps in PyBullet on object instance**
 
