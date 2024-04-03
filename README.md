@@ -16,7 +16,7 @@ This repository contains:
   <img src="aograsp/images/gifs/oven.gif" width="120" />
   <img src="aograsp/images/gifs/drawer.gif" width="120" />
   </p>
-* Information on how to download the AO-Grasp dataset of actionable grasps on synthetic articulated objects from the [PartNet-Mobility dataset](https://sapien.ucsd.edu/browse). See [this readme](https://github.com/stanford-iprl-lab/ao-grasp/tree/main/aograsp_dataset_utils#ao-grasp-dataset) for more information.
+* **[Coming soon]** Information on how to download the AO-Grasp dataset of actionable grasps on synthetic articulated objects from the [PartNet-Mobility dataset](https://sapien.ucsd.edu/browse). See [this readme](https://github.com/stanford-iprl-lab/ao-grasp/tree/main/aograsp_dataset_utils#ao-grasp-dataset) for more information.
   <p align="center"">
   <img src="aograsp/images/gifs/dataset.gif" width="500">
   </p>
