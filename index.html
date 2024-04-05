@@ -93,19 +93,29 @@
                 <div class="col-auto p-4 rounded" style="background-color: rgba(0,0,0,.03)">
                     <h2 class="title" style="text-align: center;">Abstract</h2>
                     <p class="font-weight-light">
-                        We introduce AO-Grasp, a grasp proposal method that generates stable and actionable 6
-                        degree-of-freedom grasps for articulated objects. Our generated grasps enable robots to interact
-                        with articulated objects, such as opening and closing cabinets and appliances. Given a segmented
-                        partial point cloud of a single articulated object, AO-Grasp predicts the best grasp points on
-                        the object with a novel Actionable Grasp Point Predictor model and then finds corresponding
-                        grasp orientations for each point by leveraging a state-of-the-art rigid object grasping method.
-                        We train AO-Grasp on our new AO-Grasp Dataset, which contains 48K actionable parallel-jaw grasps
-                        on synthetic articulated objects. In simulation, AO-Grasp achieves higher grasp success rates
-                        than existing rigid object grasping and articulated object interaction baselines on both train
-                        and test categories. Additionally, we evaluate AO-Grasp on 120 real-world scenes of objects with
-                        varied geometries, articulation axes, and joint states, where AO-Grasp produces successful
-                        grasps on 67.5% of scenes, while the baseline only produces successful grasps on 33.3% of the
-                        scenes.
+                        We introduce AO-Grasp, a grasp proposal method
+                        that generates 6 DoF grasps that enable robots to interact
+                        with articulated objects, such as opening and closing cabinets
+                        and appliances. AO-Grasp consists of two main contributions:
+                        the AO-Grasp Model and the AO-Grasp Dataset. Given a
+                        segmented partial point cloud of a single articulated object,
+                        the AO-Grasp Model predicts the best grasp points on the
+                        object with an Actionable Grasp Point Predictor. Then, it
+                        finds corresponding grasp orientations for each of these points,
+                        resulting in stable and actionable grasp proposals. We train
+                        the AO-Grasp Model on our new AO-Grasp Dataset, which
+                        contains 78K actionable parallel-jaw grasps on synthetic articulated objects. 
+                        In simulation, AO-Grasp achieves a 45.0% grasp
+                        success rate, whereas the highest performing baseline achieves
+                        a 35.0% success rate. Additionally, we evaluate AO-Grasp
+                        on 120 real-world scenes of objects with varied geometries,
+                        articulation axes, and joint states, where AO-Grasp produces
+                        successful grasps on 67.5% of scenes, while the baseline only
+                        produces successful grasps on 33.3% of scenes. To the best of
+                        our knowledge, AO-Grasp is the first method for generating 6
+                        DoF grasps on articulated objects directly from partial point
+                        clouds without requiring part detection or hand-designed grasp
+                        heuristics.
                     </p>
                 </div>
             </div>
