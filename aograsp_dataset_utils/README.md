@@ -4,7 +4,7 @@ The AO-Grasp dataset contains 78,000 6 DoF parallel jaw grasps on 84 articulated
 
 ## Downloading the AO-Grasp dataset
 
-Fill out [this form](https://forms.gle/EVZbZGMYRiyKpo6GA) to download the AO-Grasp dataset and pre-processed object meshes. Note that the form will require you to sign into a Google account. 
+[COMING SOON]
 
 ## Contents of the AO-Grasp dataset
 
