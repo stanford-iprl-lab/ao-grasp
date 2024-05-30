@@ -136,10 +136,15 @@ To run AO-Grasp on your own data using our provided script, you must save point 
 
 - Point clouds must have 4096 points.
 - The object point cloud must be segmented out from the full scene.
-- Point clouds should be in an image coordinate system that is right-handed with the positive Y-axis pointing down, X-axis pointing right and Z-axis pointing away from the camera (ie. towards the object). This is the [default camera frame](https://www.stereolabs.com/docs/positional-tracking/coordinate-frames#selecting-a-coordinate-system) used by the Zed2 camera that we used to capture our real-world point clouds.
+- Point clouds should be in an image coordinate system that is right-handed with the positive Y-axis pointing down, X-axis pointing right and Z-axis pointing away from the camera (ie. **towards the object**). This is the [default camera frame](https://www.stereolabs.com/docs/positional-tracking/coordinate-frames#selecting-a-coordinate-system) used by the Zed2 camera that we used to capture our real-world point clouds.
 
   <img src="aograsp/images/zed_right_handed.jpeg" width="100">
 
+  Here is a birds-eye view of one of our test point clouds, `microwave_open.ply`, with the camera frame visualized. You can see that the camera frame z-axis is pointing towards the object. 
+
+  <img src="aograsp/images/microwave_open_pcd_birdseye.png" width="400">
+  
+- The object should be roughly 1 meter away from the camera. This does not need to be exact, AO-Grasp can handle variations in object-to-camera distance, but the model will likely not perform as well if the object is too close or too far (~2 meters or more) from the camera.
 
 
 
