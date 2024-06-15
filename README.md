@@ -144,7 +144,7 @@ To run AO-Grasp on your own data using our provided script, you must save point 
 
   <img src="aograsp/images/microwave_open_pcd_birdseye.png" width="400">
   
-- The object should be roughly 1 meter away from the camera. This does not need to be exact, AO-Grasp can handle variations in object-to-camera distance, but the model will likely not perform as well if the object is too close or too far (~2 meters or more) from the camera.
+- The object should be roughly 1-1.2 meters away from the camera. This does not need to be exact, AO-Grasp can handle variations in object-to-camera distance, but the model will likely not perform as well if the object is too close or too far (~2 meters or more) from the camera.
 
 
 
